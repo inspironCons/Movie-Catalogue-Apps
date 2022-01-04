@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="IconLocation">
+        <ignore path="src/main/res/drawable/poster_a_start_is_born.jpg" />
+        <ignore path="src/main/res/drawable/poster_alita.jpg" />
+        <ignore path="src/main/res/drawable/poster_aquaman.jpg" />
+        <ignore path="src/main/res/drawable/poster_arrow.jpg" />
+        <ignore path="src/main/res/drawable/poster_bohemian.jpg" />
+        <ignore path="src/main/res/drawable/poster_cold_persuit.jpg" />
+        <ignore path="src/main/res/drawable/poster_creed.jpg" />
+        <ignore path="src/main/res/drawable/poster_crimes.jpg" />
+        <ignore path="src/main/res/drawable/poster_doom_patrol.jpg" />
+        <ignore path="src/main/res/drawable/poster_family_guy.jpg" />
+        <ignore path="src/main/res/drawable/poster_flash.jpg" />
+        <ignore path="src/main/res/drawable/poster_glass.jpg" />
+        <ignore path="src/main/res/drawable/poster_grey_anatomy.jpg" />
+        <ignore path="src/main/res/drawable/poster_iron_fist.jpg" />
+        <ignore path="src/main/res/drawable/poster_ncis.jpg" />
+        <ignore path="src/main/res/drawable/poster_ralph.jpg" />
+        <ignore path="src/main/res/drawable/poster_spiderman.jpg" />
+        <ignore path="src/main/res/drawable/poster_supergirl.jpg" />
+        <ignore path="src/main/res/drawable/poster_t34.jpg" />
+        <ignore path="src/main/res/drawable/poster_the_simpson.jpg" />
+        <ignore path="src/main/res/drawable/poster_the_walking_dead.jpg" />
+    </issue>
+</lint>

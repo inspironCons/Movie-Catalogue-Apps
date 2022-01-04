@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">The Movies Library</string>
+    <string name="app_name">Movie Catalogue App</string>
     <string name="movie_text">Movies</string>
     <string name="tv_show_text">TV Show</string>
     <string name="user_score">User Score</string>
@@ -11,5 +11,4 @@
     <string name="overview">Overview</string>
     <string name="top_billed_cast">Top Billed Cast</string>
     <string name="back_button">back button</string>
-
 </resources>

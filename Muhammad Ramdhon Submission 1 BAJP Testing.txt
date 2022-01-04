@@ -1,0 +1,138 @@
+Muhammad Ramdhon ###################################################################### Dodon.Consult@gmail.com
+########################################### Instrument Testing ###########################################
+
+1)HomeFeatures
+  1. displayMoviePlaylist
+    deskripsi -> memuat movie playlist di recycleview
+    
+    a. klik tab pada posisi/ menu movie
+    b. memastikan jumlah data movie berjumlah '10'
+    c. memastikan nama film benar
+    d. memastikan rating film benar
+    e. memastikan category film benar
+
+  2. displayTvShowsPlaylist
+    deskripsi -> memuat tv show playlist di recycleview
+    
+    a. klik tab pada posisi/ menu tv show
+    b. memastikan jumlah data movie berjumlah '10'
+    c. memastikan nama tv show benar
+    d. memastikan rating tv show benar
+    e. memastikan category tv show benar
+
+  3.navigateToDetailMovies
+    deskripsi-> ketika klik item daftar film/tv show akan menuju halaman detail film
+
+    a.klik item pertama pada kategori film
+    b.memastikan layout yang ditampilkan halaman detail yang benar
+    c. klik tombol kembali
+    d. klik tab pada posisi/ menu tv show
+    e.klik item pertama pada kategori tv show
+    f.memastikan layout yang ditampilkan halaman detail yang benar
+
+2)DetailsFeatures
+   1.loadDetailsMovies
+    deskripsi-> memuat detail dari item film/tv shows
+
+        a.klik item pertama pada kategori film
+        b.memastikan layout yang ditampilkan halaman detail yang benar
+        c.memastikan gambar poster sesuai dengan data detail movie
+        d.memastikan judul film sesuai dengan detail data dari item yang di testing
+        e.memastikan director film sesuai dengan detail data dari item yang di testing
+        f.memastikan rating film sesuai dengan detail data dari item yang di testing
+        g.memastikan tanggal release film sesuai dengan detail data dari item yang di testing
+        h.memastikan kategori film sesuai dengan detail data dari item yang di testing
+        i.memastikan user score film sesuai dengan detail data dari item yang di testing
+        j.memastikan overview film sesuai dengan detail data dari item yang di testing
+        k.memastikan jumlah cast di film sesuai dengan detail data dari item yang di testing
+
+    2.navigateToIntentWhileClickButtonWatch
+      deskripsi -> klik tombol tonton untuk menonton di website layanan streaming
+
+      a.klik item pertama pada kategori film
+      b.mencoba melakukan intent ke browser dengan data url dari item yang di testing
+      c memastikan result intent berhasil dilakukan
+
+    3.navigateBackButton
+      deskripsi -> klik tombol kembali yang ada di layout
+      a.klik item pertama pada kategori film
+      b.klik tombol back dengan id btn_menus
+      c.memastikan layout yang ditampilkan sesuai dengan halaman sebelum nya yaitu home page
+########################################### Instrument Testing ###########################################
+
+########################################### Unit Testing ###########################################
+
+1.MovieViewModelShould
+  a.getMoviesListFromRepositoryThenSuccess(memuat daftar film dari repository dengan balikan berhasil)
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class MovieEntity
+    - memanggil fungsi getMovieList di MoviesViewModel
+    - memastikan fungsi getPlaylist() terpanggil hanya satu kali oleh variable fungsi getMovieList di MoviesViewModel
+    - memastikan hasil balikan dari getPlaylist() sama dengan nilai dari list yang sudah di buat dengan mock
+
+  b.getMoviesListFromRepositoryThenEmpty(memuat daftar film dari repository dengan balikan list kosong/ data tidak ada)
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List kosong / empty
+    - memanggil fungsi getMovieList di MoviesViewModel
+    - memastikan fungsi getPlaylist() terpanggil hanya satu kali oleh variable fungsi getMovieList di MoviesViewModel
+    - memastikan hasil balikan dari getPlaylist() sama dengan nilai kosong
+
+  c.getMoviesListFromRepositoryThenException(memuat daftar film dari repository dengan balikan error)
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan error
+    - memanggil fungsi getMovieList di MoviesViewModel
+    - memastikan fungsi getPlaylist() terpanggil hanya satu kali oleh variable fungsi getMovieList di MoviesViewModel
+    - memastikan hasil balikan dari getPlaylist() adalah error yakni RuntimeException dengan kata "Something Went Wrong"
+
+  d.showLoaderWhenLoadMovieList(menampilkan loader ketika daftar film sedang dimuat/dipanggil)
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class MovieEntity
+    - meng-capture nilai pertama dari variable loader yang ada di MoviesViewModel
+    - memastikan bahwa nilai adalah 'true'
+
+  e.hideLoaderWhenLoadMovieListIsDone(menyembunyikan loader ketika daftar film telah dimuat/dipanggil)
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class MovieEntity
+    - meng-capture nilai terakhir dari variable loader yang ada di MoviesViewModel
+    - memastikan bahwa nilai adalah 'false'
+
+-Unit Testing
+
+2.TvShowViewModelShould
+  a.getMoviesListFromRepositoryThenSuccess(memuat daftar tv shows dari repository dengan balikan berhasil)
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class MovieEntity
+    - memanggil fungsi getTvShowList di TvShowViewModel
+    - memastikan fungsi getPlaylist() terpanggil hanya satu kali oleh variable fungsi getTvShowList di TvShowViewModel
+    - memastikan hasil balikan dari getPlaylist() sama dengan nilai dari list yang sudah di buat dengan mock
+
+  b.getMoviesListFromRepositoryThenEmpty(memuat daftar tv shows dari repository dengan balikan list kosong/ data tidak ada)
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List kosong / empty
+    - memanggil fungsi getTvShowList di TvShowViewModel
+    - memastikan fungsi getPlaylist() terpanggil hanya satu kali oleh variable fungsi getTvShowList di TvShowViewModel
+    - memastikan hasil balikan dari getPlaylist() sama dengan nilai kosong
+
+  c.getMoviesListFromRepositoryThenException(memuat daftar tv shows dari repository dengan balikan error)
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan error
+    - memanggil fungsi getTvShowList di TvShowViewModel
+    - memastikan fungsi getPlaylist() terpanggil hanya satu kali oleh variable fungsi getTvShowList di TvShowViewModel
+    - memastikan hasil balikan dari getPlaylist() adalah error yakni RuntimeException dengan kata "Something Went Wrong"
+
+  d.showLoaderWhenLoadMovieList(menampilkan loader ketika daftar tv shows sedang dimuat/dipanggil)
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class MovieEntity
+    - meng-capture nilai pertama dari variable loader yang ada di TvShowViewModel
+    - memastikan bahwa nilai adalah 'true'
+
+  e.hideLoaderWhenLoadMovieListIsDone(menyembunyikan loader ketika daftar tv shows telah dimuat/dipanggil)
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class MovieEntity
+    - meng-capture nilai terakhir dari variable loader yang ada di TvShowViewModel
+    - memastikan bahwa nilai adalah 'false'
+
+3.DetailMovieViewModelShould
+  a.detailMoviesSuccessViewModel(memuat detail film dari repository dengan balikan berhasil)
+    - membuat simulasi jika fungsi getDetailPlaylist() di repo dipanggil maka akan mendapatkan data dengan data MovieEntity
+    - memanggil fungsi detailMovie() di DetailMovieViewModel
+    - memastikan fungsi getDetailPlaylist() terpanggil hanya satu kali oleh variable fungsi detailMovie() di DetailMovieViewModel
+    - memastikan hasil balikan dari getDetailPlaylist() sama dengan detail yang sudah di buat dengan mock
+
+  b.getDetailMovieFromRepositoryThenReturnException(memuat detail film dari repository dengan balikan error)
+    - membuat simulasi jika fungsi getDetailPlaylist() di repo dipanggil maka akan mendapatkan error
+    - memanggil fungsi detailMovie() di DetailMovieViewModel
+    - memastikan fungsi getDetailPlaylist() terpanggil hanya satu kali oleh variable fungsi detailMovie() di DetailMovieViewModel
+    - memastikan hasil balikan dari getDetailPlaylist() adalah error yakni RuntimeException dengan kata "Something Went Wrong on detail activity"
+
+########################################### Unit Testing ###########################################
