@@ -10,17 +10,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import bajp.playground.moviecatalogueapp.data.MovieEntity
 import bajp.playground.moviecatalogueapp.databinding.FragmentTvShowBinding
-import bajp.playground.moviecatalogueapp.repository.movie.MovieRepository
 import bajp.playground.moviecatalogueapp.ui.detail.DetailMovieActivity
-import bajp.playground.moviecatalogueapp.utils.DummyData
 import bajp.playground.moviecatalogueapp.utils.General.isShowComponentProgress
+import bajp.playground.moviecatalogueapp.viewModel.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class TvShowFragment : Fragment() {
 
     private var _binding: FragmentTvShowBinding? = null
     private val binding get() = _binding
+
+    @Inject lateinit var factory:ViewModelFactory
     private lateinit var viewModel:TvShowViewModel
-    private val movieRepository = MovieRepository(DummyData)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,7 +35,6 @@ class TvShowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if(activity != null){
-            val factory = TvShowViewModelFactory(movieRepository)
             viewModel = ViewModelProvider(this,factory)[TvShowViewModel::class.java]
             showHideLoader()
             generateTvShows()

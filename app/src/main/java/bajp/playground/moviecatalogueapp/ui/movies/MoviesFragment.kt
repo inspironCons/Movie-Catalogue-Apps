@@ -10,19 +10,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import bajp.playground.moviecatalogueapp.data.MovieEntity
 import bajp.playground.moviecatalogueapp.databinding.FragmentMoviesBinding
-import bajp.playground.moviecatalogueapp.repository.movie.MovieRepository
 import bajp.playground.moviecatalogueapp.ui.detail.DetailMovieActivity
-import bajp.playground.moviecatalogueapp.utils.DummyData
 import bajp.playground.moviecatalogueapp.utils.General.isShowComponentProgress
+import bajp.playground.moviecatalogueapp.viewModel.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MoviesFragment : Fragment() {
 
     private var _binding: FragmentMoviesBinding? = null
     private val binding get()=_binding
 
+    @Inject lateinit var factory:ViewModelFactory
     private lateinit var viewModel: MoviesViewModel
-    private val dummyData = DummyData
-    private val moviesRepository = MovieRepository(dummyData)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,7 +35,6 @@ class MoviesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if(activity != null){
-            val factory =MoviesViewModelFactory(moviesRepository)
             viewModel = ViewModelProvider(this,factory)[MoviesViewModel::class.java]
             loaderShowAndHide()
             generateRvMovies()

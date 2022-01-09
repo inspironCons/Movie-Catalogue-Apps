@@ -4,8 +4,9 @@ import bajp.playground.moviecatalogueapp.data.MovieEntity
 import bajp.playground.moviecatalogueapp.utils.DummyData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class MovieRepository(
+class MovieRepository @Inject constructor(
     private val dummyData:DummyData
 ) {
 

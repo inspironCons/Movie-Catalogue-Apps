@@ -15,23 +15,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import bajp.playground.moviecatalogueapp.R
 import bajp.playground.moviecatalogueapp.data.CastEntity
 import bajp.playground.moviecatalogueapp.databinding.ActivityDetailMovieBinding
-import bajp.playground.moviecatalogueapp.repository.movie.MovieRepository
-import bajp.playground.moviecatalogueapp.utils.DummyData
 import bajp.playground.moviecatalogueapp.utils.General.toDateFormatRelease
+import bajp.playground.moviecatalogueapp.viewModel.ViewModelFactory
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DetailMovieActivity:AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailMovieBinding
+    @Inject
+    lateinit var factory: ViewModelFactory
+
     private lateinit var viewModel: DetailMovieViewModel
-    private val dummyData = DummyData
-    private val moviesRepository = MovieRepository(dummyData)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailMovieBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val factory = DetailMovieViewModelFactory(moviesRepository)
         viewModel = ViewModelProvider(this,factory)[DetailMovieViewModel::class.java]
         getDetail()
         onBackNav()

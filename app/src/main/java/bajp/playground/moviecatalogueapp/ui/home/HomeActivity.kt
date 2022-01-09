@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import bajp.playground.moviecatalogueapp.R
 import bajp.playground.moviecatalogueapp.databinding.ActivityHomeBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
