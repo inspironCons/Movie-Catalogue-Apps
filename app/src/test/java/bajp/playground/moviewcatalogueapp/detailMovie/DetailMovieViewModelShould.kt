@@ -1,7 +1,8 @@
 package bajp.playground.moviewcatalogueapp.detailMovie
 
-import bajp.playground.moviecatalogueapp.data.MovieEntity
-import bajp.playground.moviecatalogueapp.repository.movie.MovieRepository
+import bajp.playground.moviecatalogueapp.common.ConstanNameHelper
+import bajp.playground.moviecatalogueapp.data.DetailMovieEntity
+import bajp.playground.moviecatalogueapp.repository.movie.DetailMovieRepository
 import bajp.playground.moviecatalogueapp.ui.detail.DetailMovieViewModel
 import bajp.playground.moviewcatalogueapp.utils.BaseUnitTest
 import bajp.playground.moviewcatalogueapp.utils.getValueForTest
@@ -16,19 +17,19 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class DetailMovieViewModelShould:BaseUnitTest() {
-    private val movieRepo: MovieRepository = mock()
-    private val mockEntity = mock<MovieEntity>()
+    private val movieRepo: DetailMovieRepository = mock()
+    private val mockEntity = mock<DetailMovieEntity>()
     private val entitySuccess = Result.success(mockEntity)
-    private val expectedException = Result.failure<MovieEntity>(RuntimeException("Something Went Wrong on detail activity"))
+    private val expectedException = Result.failure<DetailMovieEntity>(RuntimeException("Something Went Wrong on detail activity"))
 
-    private val idMovieTesting = "m1"
+    private val idMovieTesting = 634649
 
     @ExperimentalCoroutinesApi
     @Test
     fun getDetailMovieFromRepositoryThenReturnSuccess() = runBlockingTest {
         val viewModel = detailMoviesSuccessViewModel()
-        val detail = viewModel.detailMovie(idMovieTesting).getValueForTest()
-        verify(movieRepo, times(1)).getDetailPlaylist(idMovieTesting)
+        val detail = viewModel.detailMovie(idMovieTesting,ConstanNameHelper.MOVIES_TYPE).getValueForTest()
+        verify(movieRepo, times(1)).getDetailMovies(idMovieTesting)
         assertEquals(entitySuccess,detail)
     }
 
@@ -36,15 +37,15 @@ class DetailMovieViewModelShould:BaseUnitTest() {
     @Test
     fun getDetailMovieFromRepositoryThenReturnException() = runBlockingTest {
         val viewModel = detailMovieFailureViewModel()
-        val detail = viewModel.detailMovie(idMovieTesting).getValueForTest()
-        verify(movieRepo, times(1)).getDetailPlaylist(idMovieTesting)
+        val detail = viewModel.detailMovie(idMovieTesting,ConstanNameHelper.MOVIES_TYPE).getValueForTest()
+        verify(movieRepo, times(1)).getDetailMovies(idMovieTesting)
         assertEquals(expectedException,detail)
     }
 
     @ExperimentalCoroutinesApi
     private fun detailMoviesSuccessViewModel(): DetailMovieViewModel {
         runBlockingTest {
-            whenever(movieRepo.getDetailPlaylist(idMovieTesting)).thenReturn(
+            whenever(movieRepo.getDetailMovies(idMovieTesting)).thenReturn(
                 flow {
                     emit(entitySuccess)
                 }
@@ -57,7 +58,7 @@ class DetailMovieViewModelShould:BaseUnitTest() {
     @ExperimentalCoroutinesApi
     private fun detailMovieFailureViewModel(): DetailMovieViewModel {
         runBlockingTest {
-            whenever(movieRepo.getDetailPlaylist(idMovieTesting)).thenReturn(
+            whenever(movieRepo.getDetailMovies(idMovieTesting)).thenReturn(
                 flow {
                     emit(expectedException)
                 }

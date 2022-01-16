@@ -1,6 +1,6 @@
 package bajp.playground.moviewcatalogueapp.movies
 
-import bajp.playground.moviecatalogueapp.data.MovieEntity
+import bajp.playground.moviecatalogueapp.data.TrendingEntity
 import bajp.playground.moviecatalogueapp.repository.movie.MovieRepository
 import bajp.playground.moviecatalogueapp.ui.movies.MoviesViewModel
 import bajp.playground.moviewcatalogueapp.utils.BaseUnitTest
@@ -15,16 +15,15 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.lang.RuntimeException
 import java.util.*
 
 class MoviesViewModelShould: BaseUnitTest() {
 
     private val movieRepo:MovieRepository = mock()
-    private val mockMovieList = mock<List<MovieEntity>>()
+    private val mockMovieList = mock<List<TrendingEntity>>()
     private val expectedSuccess = Result.success(mockMovieList)
-    private val expectedEmpty = Result.success(Collections.emptyList<MovieEntity>())
-    private val expectedException = Result.failure<List<MovieEntity>>(RuntimeException("Something Went Wrong"))
+    private val expectedEmpty = Result.success(Collections.emptyList<TrendingEntity>())
+    private val expectedException = Result.failure<List<TrendingEntity>>(RuntimeException("Something Went Wrong"))
 
 
     @ExperimentalCoroutinesApi
@@ -32,7 +31,7 @@ class MoviesViewModelShould: BaseUnitTest() {
     fun getMoviesListFromRepositoryThenSuccess() = runBlockingTest{
         val viewModel = moviesSuccessViewModel()
         val data = viewModel.getMovieList.getValueForTest()
-        verify(movieRepo, times(1)).getPlaylist(1)
+        verify(movieRepo, times(1)).getMoviesList()
         assertEquals(expectedSuccess,data)
     }
 
@@ -41,7 +40,7 @@ class MoviesViewModelShould: BaseUnitTest() {
     fun getMoviesListFromRepositoryThenEmpty() = runBlockingTest{
         val viewModel = moviesEmptyViewModel()
         val data = viewModel.getMovieList.getValueForTest()
-        verify(movieRepo, times(1)).getPlaylist(1)
+        verify(movieRepo, times(1)).getMoviesList()
         assertEquals(expectedEmpty,data)
     }
 
@@ -50,7 +49,7 @@ class MoviesViewModelShould: BaseUnitTest() {
     fun getMoviesListFromRepositoryThenException() = runBlockingTest{
         val viewModel = moviesFailureViewModel()
         val data = viewModel.getMovieList.getValueForTest()
-        verify(movieRepo, times(1)).getPlaylist(1)
+        verify(movieRepo, times(1)).getMoviesList()
         assertEquals(expectedException,data)
     }
 
@@ -77,7 +76,7 @@ class MoviesViewModelShould: BaseUnitTest() {
     @ExperimentalCoroutinesApi
     private fun moviesSuccessViewModel():MoviesViewModel{
         runBlockingTest {
-            whenever(movieRepo.getPlaylist(1)).thenReturn(
+            whenever(movieRepo.getMoviesList()).thenReturn(
                 flow {
                     emit(expectedSuccess)
                 }
@@ -91,7 +90,7 @@ class MoviesViewModelShould: BaseUnitTest() {
     @ExperimentalCoroutinesApi
     private fun moviesEmptyViewModel():MoviesViewModel{
         runBlockingTest {
-            whenever(movieRepo.getPlaylist(1)).thenReturn(
+            whenever(movieRepo.getMoviesList()).thenReturn(
                 flow {
                     emit(expectedEmpty)
                 }
@@ -104,7 +103,7 @@ class MoviesViewModelShould: BaseUnitTest() {
     @ExperimentalCoroutinesApi
     private fun moviesFailureViewModel():MoviesViewModel{
         runBlockingTest {
-            whenever(movieRepo.getPlaylist(1)).thenReturn(
+            whenever(movieRepo.getMoviesList()).thenReturn(
                 flow {
                     emit(expectedException)
                 }

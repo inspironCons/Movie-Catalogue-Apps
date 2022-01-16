@@ -15,7 +15,7 @@ class TvShowViewModel(
     var getTvShowList = liveData {
         loader.postValue(true)
         emitSource(
-            repository.getPlaylist(2)
+            repository.getTvList()
                 .onEach {
                     loader.postValue(false)
                 }

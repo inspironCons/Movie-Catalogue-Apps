@@ -9,6 +9,9 @@
     <string name="movie_title_and_years">%s %s</string>
     <string name="movie_score">%1$d\%%</string>
     <string name="overview">Overview</string>
-    <string name="top_billed_cast">Top Billed Cast</string>
     <string name="back_button">back button</string>
+    <string name="companies">Production Companies</string>
+    <string name="network">Network</string>
+    <string name="tagline">\" %s \"</string>
+
 </resources>

@@ -17,7 +17,7 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String","API_KEY",'"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"')
+        buildConfigField("String","API_KEY",'"d34d8ebff8a6c28ec6a576673d084e10"')
     }
 
     buildTypes {
@@ -73,15 +73,16 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
     implementation "com.squareup.okhttp3:okhttp:5.0.0-alpha.2"
+    implementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
     debugImplementation 'com.facebook.flipper:flipper:0.127.0'
     debugImplementation 'com.facebook.soloader:soloader:0.10.3'
     debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.119.0'
-
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
     testImplementation 'org.mockito:mockito-inline:4.0.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2'
+
 
     androidTestImplementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'

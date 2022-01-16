@@ -9,7 +9,9 @@
     <string name="movie_title_and_years">%s %s</string>
     <string name="movie_score">%1$d\%%</string>
     <string name="overview">Sinopsis</string>
-    <string name="top_billed_cast">Pemeran</string>
     <string name="back_button">tombol kembali</string>
+    <string name="companies">Rumah Produksi</string>
+    <string name="network">Network</string>
+    <string name="tagline">\" %s \"</string>
 
 </resources>

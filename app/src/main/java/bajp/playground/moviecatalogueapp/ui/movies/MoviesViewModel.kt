@@ -15,7 +15,7 @@ class MoviesViewModel(
     var getMovieList = liveData {
         loader.postValue(true)
         emitSource(
-            repository.getPlaylist(1)
+            repository.getMoviesList()
                 .onEach {
                     loader.postValue(false)
                 }

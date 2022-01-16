@@ -6,19 +6,19 @@ Muhammad Ramdhon ###############################################################
     deskripsi -> memuat movie playlist di recycleview
     
     a. klik tab pada posisi/ menu movie
-    b. memastikan jumlah data movie berjumlah '10'
-    c. memastikan nama film benar
-    d. memastikan rating film benar
-    e. memastikan category film benar
+    b. memastikan jumlah data movie berjumlah '20'
+    c. memastikan nama film dan tahun benar
+    d. memastikan movie score film benar
+    e. memastikan movie original language film benar
 
   2. displayTvShowsPlaylist
     deskripsi -> memuat tv show playlist di recycleview
     
     a. klik tab pada posisi/ menu tv show
-    b. memastikan jumlah data movie berjumlah '10'
-    c. memastikan nama tv show benar
-    d. memastikan rating tv show benar
-    e. memastikan category tv show benar
+    b. memastikan jumlah data movie berjumlah '20'
+    c. memastikan nama tv show dan tahun rilis perdana benar
+    d. memastikan score tv show benar
+    e. memastikan original language tv show benar
 
   3.navigateToDetailMovies
     deskripsi-> ketika klik item daftar film/tv show akan menuju halaman detail film
@@ -30,41 +30,73 @@ Muhammad Ramdhon ###############################################################
     e.klik item pertama pada kategori tv show
     f.memastikan layout yang ditampilkan halaman detail yang benar
 
+  4.showLoaderWhileFetchingTheListMovie
+    deskripsi -> menampilkan progress bar pada saat mengambil data movie (jika gagal reviewer bisa test di fungsi ini saja pasti berhasil)
+
+    1.mematikan/unregister idling resource agar progress bar movie list bisa terlihat
+    2.memastikan id load_content_movies di menu movie tampil
+    
+  5.showLoaderWhileFetchingTheListTvShows
+    deskripsi -> menampilkan progress bar pada saat mengambil data tv shows (jika gagal reviewer bisa test di fungsi ini saja pasti berhasil)
+    
+    1.mematikan/unregister idling resource agar progress bar tv show list bisa terlihat
+    2.klik tab pada posisi/ menu tv show
+    3.memastikan id load_content_tv_show di menu movie tampil
+    
+  6.hideLoaderWhileFetchingTheMovieListDone
+    deskripsi -> menyembunyikan progress bar di menu film setelah data sudah ada
+    1. memastikan id load_content_movies di menu movie sudah hilang
+
+  7.hideLoaderWhileFetchingTheTvShowsListDone
+    deskripsi -> menyembunyikan progress bar di menu tv shows setelah data sudah ada
+    1.klik tab pada posisi/ menu tv show
+    2. memastikan id load_content_tv_show di menu movie sudah hilang
+
+
 2)DetailsFeatures
    1.loadDetailsMovies
     deskripsi-> memuat detail dari item film/tv shows
 
-        a.klik item pertama pada kategori film
-        b.memastikan layout yang ditampilkan halaman detail yang benar
-        c.memastikan gambar poster sesuai dengan data detail movie
-        d.memastikan judul film sesuai dengan detail data dari item yang di testing
-        e.memastikan director film sesuai dengan detail data dari item yang di testing
-        f.memastikan rating film sesuai dengan detail data dari item yang di testing
-        g.memastikan tanggal release film sesuai dengan detail data dari item yang di testing
-        h.memastikan kategori film sesuai dengan detail data dari item yang di testing
-        i.memastikan user score film sesuai dengan detail data dari item yang di testing
-        j.memastikan overview film sesuai dengan detail data dari item yang di testing
-        k.memastikan jumlah cast di film sesuai dengan detail data dari item yang di testing
+        1.klik item pertama pada kategori film
+        2.memastikan layout yang ditampilkan halaman detail yang benar
+        3. membuat delay 2 detik agar poster tampil setelah di load ke imageview
+        4.memastikan id movie_poster_detail dari imageview telah di masukan drawable 
+        5.memastikan judul film sesuai dengan detail data dari item yang di testing
+        6.memastikan tagline film sesuai dengan detail data dari item yang di testing
+        7.memastikan tanggal release film sesuai dengan detail data dari item yang di testing
+        8.memastikan user score film sesuai dengan detail data dari item yang di testing
+        9.memastikan kategori film sesuai dengan detail data dari item yang di testing
+        10.memastikan overview film sesuai dengan detail data dari item yang di testing  
+        11.memastikan jumlah rumah film di film sesuai dengan detail data dari item yang di testing
 
     2.navigateToIntentWhileClickButtonWatch
       deskripsi -> klik tombol tonton untuk menonton di website layanan streaming
 
-      a.klik item pertama pada kategori film
-      b.mencoba melakukan intent ke browser dengan data url dari item yang di testing
-      c memastikan result intent berhasil dilakukan
+        1.klik item pertama pada kategori film
+        2.mencoba melakukan intent ke browser dengan data url dari item yang di testing
+        3 memastikan result intent berhasil dilakukan
 
     3.navigateBackButton
       deskripsi -> klik tombol kembali yang ada di layout
-      a.klik item pertama pada kategori film
-      b.klik tombol back dengan id btn_menus
-      c.memastikan layout yang ditampilkan sesuai dengan halaman sebelum nya yaitu home page
+        1.klik item pertama pada kategori film
+        2.klik tombol back dengan id btn_menus
+        3.memastikan layout yang ditampilkan sesuai dengan halaman sebelum nya yaitu home page
+    
+    4.checkLabelProductionOrNetwork
+      deskripsi -> mengecek apakah label dari id tv_lable_companies berjudul network untuk detail di tv shows atau production company untuk di movies
+        1. klilk item pertama pada kategori film
+        2. mengecek apakah label dengan id tv_lable_companies sama dengan string resource id companies yakni "Production Companies"
+        3.klik tombol back dengan id btn_menus
+        4.klik tab dengan judul tv shows
+        5.klik item pertama pada kategori tv shows
+        6. mengecek apakah label dengan id tv_lable_companies sama dengan string resource id network yakni "Network"
 ########################################### Instrument Testing ###########################################
 
 ########################################### Unit Testing ###########################################
 
 1.MovieViewModelShould
   a.getMoviesListFromRepositoryThenSuccess(memuat daftar film dari repository dengan balikan berhasil)
-    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class MovieEntity
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class TrendingEntity
     - memanggil fungsi getMovieList di MoviesViewModel
     - memastikan fungsi getPlaylist() terpanggil hanya satu kali oleh variable fungsi getMovieList di MoviesViewModel
     - memastikan hasil balikan dari getPlaylist() sama dengan nilai dari list yang sudah di buat dengan mock
@@ -82,20 +114,18 @@ Muhammad Ramdhon ###############################################################
     - memastikan hasil balikan dari getPlaylist() adalah error yakni RuntimeException dengan kata "Something Went Wrong"
 
   d.showLoaderWhenLoadMovieList(menampilkan loader ketika daftar film sedang dimuat/dipanggil)
-    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class MovieEntity
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class TrendingEntity
     - meng-capture nilai pertama dari variable loader yang ada di MoviesViewModel
     - memastikan bahwa nilai adalah 'true'
 
   e.hideLoaderWhenLoadMovieListIsDone(menyembunyikan loader ketika daftar film telah dimuat/dipanggil)
-    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class MovieEntity
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class TrendingEntity
     - meng-capture nilai terakhir dari variable loader yang ada di MoviesViewModel
     - memastikan bahwa nilai adalah 'false'
 
--Unit Testing
-
 2.TvShowViewModelShould
   a.getMoviesListFromRepositoryThenSuccess(memuat daftar tv shows dari repository dengan balikan berhasil)
-    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class MovieEntity
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class TrendingEntity
     - memanggil fungsi getTvShowList di TvShowViewModel
     - memastikan fungsi getPlaylist() terpanggil hanya satu kali oleh variable fungsi getTvShowList di TvShowViewModel
     - memastikan hasil balikan dari getPlaylist() sama dengan nilai dari list yang sudah di buat dengan mock
@@ -113,18 +143,18 @@ Muhammad Ramdhon ###############################################################
     - memastikan hasil balikan dari getPlaylist() adalah error yakni RuntimeException dengan kata "Something Went Wrong"
 
   d.showLoaderWhenLoadMovieList(menampilkan loader ketika daftar tv shows sedang dimuat/dipanggil)
-    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class MovieEntity
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class TrendingEntity
     - meng-capture nilai pertama dari variable loader yang ada di TvShowViewModel
     - memastikan bahwa nilai adalah 'true'
 
   e.hideLoaderWhenLoadMovieListIsDone(menyembunyikan loader ketika daftar tv shows telah dimuat/dipanggil)
-    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class MovieEntity
+    - membuat simulasi jika fungsi getPlaylist() di repo dipanggil maka akan mendapatkan List dengan data class TrendingEntity
     - meng-capture nilai terakhir dari variable loader yang ada di TvShowViewModel
     - memastikan bahwa nilai adalah 'false'
 
 3.DetailMovieViewModelShould
   a.detailMoviesSuccessViewModel(memuat detail film dari repository dengan balikan berhasil)
-    - membuat simulasi jika fungsi getDetailPlaylist() di repo dipanggil maka akan mendapatkan data dengan data MovieEntity
+    - membuat simulasi jika fungsi getDetailPlaylist() di repo dipanggil maka akan mendapatkan data dengan data DetailMovieEntity
     - memanggil fungsi detailMovie() di DetailMovieViewModel
     - memastikan fungsi getDetailPlaylist() terpanggil hanya satu kali oleh variable fungsi detailMovie() di DetailMovieViewModel
     - memastikan hasil balikan dari getDetailPlaylist() sama dengan detail yang sudah di buat dengan mock
@@ -135,4 +165,117 @@ Muhammad Ramdhon ###############################################################
     - memastikan fungsi getDetailPlaylist() terpanggil hanya satu kali oleh variable fungsi detailMovie() di DetailMovieViewModel
     - memastikan hasil balikan dari getDetailPlaylist() adalah error yakni RuntimeException dengan kata "Something Went Wrong on detail activity"
 
+4.MovieRepositoryShould
+  a.getMoviesListFromApiService
+    - membuat simulasi jika fungsi fetchApiMovieList di class TrendingService dipanggil mendapatkan response list sesuai data class ResultsMovieResponse
+    - membuat simulasi jika class TrendingMovieMapper pada function invoke dipanggil maka mendapatkan balikan dengan list sesuai data class dari TrendingEntity
+    - memanggil fungsi getMoviesList dari class MovieRepository
+    - memastikan fungsi fetchApiMovieList dari class TrendingService terpanggil hanya satu kali
+    -memastikan hasil balikan fungsi getMoviesList sama dengan list yang sudah di buat mock yakni List dari TrendingEntity
+
+  b.getMoviesListFromApiServiceThenFailure
+    - membuat simulasi jika fungsi fetchApiMovieList di class TrendingService dipanggil mendapatkan response gagal yakni exeption dengan pesan "Ops something went wrong"
+    - memanggil fungsi getMoviesList dari class MovieRepository
+    - memastikan fungsi fetchApiMovieList dari class TrendingService terpanggil hanya satu kali
+    - memastikan hasil balikan fungsi getMoviesList error yakni dengan pesan "Ops something went wrong"
+
+  c.checkingRawDataGetMovieListFromApiBeforeToMapperMovie
+     - membuat simulasi jika fungsi fetchApiMovieList di class TrendingService dipanggil mendapatkan response list sesuai data class ResultsMovieResponse
+     - membuat simulasi jika class TrendingMovieMapper pada function invoke dipanggil maka mendapatkan balikan dengan list sesuai data class dari TrendingEntity
+     - memanggil fungsi getMoviesList dari class MovieRepository
+     - memastikan fungsi invoke pada class MovieMapper terpanggil
+  
+  d.getTvShowsListFromApiService
+    - membuat simulasi jika fungsi fetchApiTvList di class TrendingService dipanggil mendapatkan response list sesuai data class ResultsTvResponse
+    - membuat simulasi jika class TrendingTVMapper pada function invoke dipanggil maka mendapatkan balikan dengan list sesuai data class dari TrendingEntity
+    - memanggil fungsi getTvList dari class MovieRepository
+    - memastikan fungsi fetchApiTvList dari class TrendingService terpanggil hanya satu kali
+    -memastikan hasil balikan fungsi getTvList sama dengan list yang sudah di buat mock yakni List dari TrendingEntity
+  
+  e.getTvShowsListFromApiServiceThenFailure
+     - membuat simulasi jika fungsi fetchApiTvList di class TrendingService dipanggil mendapatkan response gagal yakni exeption dengan pesan "Ops something went wrong"
+    - memanggil fungsi getTvList dari class MovieRepository
+    - memastikan fungsi fetchApiTvList dari class TrendingService terpanggil hanya satu kali
+    - memastikan hasil balikan fungsi getTvList error yakni dengan pesan "Ops something went wrong"
+  
+  f.checkingRawDataGetTvListFromApiBeforeToMapperMovie
+     - membuat simulasi jika fungsi fetchApiTvList di class TrendingService dipanggil mendapatkan response list sesuai data class ResultsTvResponse
+     - membuat simulasi jika class TrendingTVMapper pada function invoke dipanggil maka mendapatkan balikan dengan list sesuai data class dari TrendingEntity
+     - memanggil fungsi getTvList dari class MovieRepository
+     - memastikan fungsi invoke pada class MovieMapper terpanggil
+
+5.DetailMovieRepositoryShould
+  a.getDetailMovieSuccessfulCase
+   - membuat simulasi jika fungsi fetchDetailMovies pada class DetailService di panggil makan mendapatkan balikan  DetailMoviesResponse
+   - memanggil fungsi getDetailMovies pada class DetailMovieRepository
+   - memastikan fungsi fetchDetailMovies pada class DetailService terpanggil hanya satu kali
+   - memastikan hasil balikan sama dengan objeck mock yakni object DetailMovieEntity
+  b.getDetailMovieFailure
+   - membuat simulasi jika fungsi fetchDetailMovies pada class DetailService di panggil makan mendapatkan balikan error exception dengan pesan "Something Wrong"
+   - memanggil fungsi getDetailMovies pada class DetailMovieRepository
+   - memastikan fungsi fetchDetailMovies pada class DetailService terpanggil hanya satu kali
+   - memastikan hasil balikan sama dengan pesan error yakni "Something Wrong"
+  c.checkingRawDataGetMovieBeforeToMappers
+    - membuat simulasi jika fungsi fetchDetailMovies pada class DetailService di panggil makan mendapatkan balikan  DetailMoviesResponse
+   - memanggil fungsi getDetailMovies pada class DetailMovieRepository
+   - memastikan fungsi invoke dari class DetailMoviesMapper terpanggil hanya satu kali
+
+  d.getDetailTvSuccessfulCase
+    - membuat simulasi jika fungsi fetchDetailTV pada class DetailService di panggil makan mendapatkan balikan  DetailTvShowsResponse
+   - memanggil fungsi getDetailTV pada class DetailMovieRepository
+   - memastikan fungsi fetchDetailTV pada class DetailService terpanggil hanya satu kali
+   - memastikan hasil balikan sama dengan objeck mock yakni object DetailMovieEntity
+  e.checkingRawDataGetTvBeforeToMappers
+     - membuat simulasi jika fungsi fetchDetailTV pada class DetailService di panggil makan mendapatkan balikan  DetailTvShowsResponse
+   - memanggil fungsi getDetailTV pada class DetailMovieRepository
+   - memastikan fungsi invoke dari class DetailMoviesMapper terpanggil hanya satu kali
+  f.getDetailTvFailure
+    - membuat simulasi jika fungsi fetchDetailTV pada class DetailService di panggil makan mendapatkan balikan error exception dengan pesan "Something Wrong"
+   - memanggil fungsi getDetailTV pada class DetailMovieRepository
+   - memastikan fungsi fetchDetailTV pada class DetailService terpanggil hanya satu kali
+   - memastikan hasil balikan sama dengan pesan error yakni "Something Wrong"
+
+6.TrendingServiceShould
+  a.getMovieFromApiThenSuccess 
+    - membuat simulasi jika fungsi getTrendingMovieOnThisWeek pada interface TrendingApi mendapatkan balikan dengan nilai TrendingMovieResponse
+    - memanggil fungsi fetchApiMovieList pada interface interface TrendingApi
+    - memastikan fungsi fetchApiMovieList terpanggil hanya satu kali
+    - memastikan nilai balikan dari fungsi fetchApiMovieList adalah sama dengan yang dibuat dengan mock yakni dari object data class TrendingMovieResponse
+  b.getMovieFromApiThenNetworkFail
+    - membuat simulasi jika fungsi getTrendingMovieOnThisWeek pada interface TrendingApi mendapatkan balikan throw dengan pesan error "Something went wrong"
+    - memanggil fungsi fetchApiMovieList pada interface interface TrendingApi
+    - memastikan fungsi fetchApiMovieList terpanggil hanya satu kali
+    - memastikan nilai balikan dari fungsi fetchApiMovieList adalah sama yakni pesan error "Something went wrong"
+  c.getTvShowsFromApiThenSuccess
+   - membuat simulasi jika fungsi getTrendingTvShowsOnThisWeek pada interface TrendingApi mendapatkan balikan dengan nilai TrendingTvResponse
+    - memanggil fungsi fetchApiTvList pada interface interface TrendingApi
+    - memastikan fungsi fetchApiTvList terpanggil hanya satu kali
+    - memastikan nilai balikan dari fungsi fetchApiTvList adalah sama dengan yang dibuat dengan mock yakni dari object data class TrendingTvResponse
+  d.getTvShowsFromApiThenNetworkFail
+  - membuat simulasi jika fungsi getTrendingTvShowsOnThisWeek pada interface TrendingApi mendapatkan balikan throw dengan pesan error "Something went wrong"
+    - memanggil fungsi fetchApiTvList pada interface interface TrendingApi
+    - memastikan fungsi fetchApiTvList terpanggil hanya satu kali
+    - memastikan nilai balikan dari fungsi fetchApiTvList adalah sama yakni pesan error "Something went wrong"
+
+7.DetailServiceShould
+  a.getDetailMoviesFromApiService
+   - membuat simulasi jika fungsi getDetailMovie pada interface DetailMoviesApi mendapatkan balikan dengan nilai DetailMoviesResponse
+   - memanggil fungsi fetchDetailMovies pada class DetailService
+   - memastikan fungsi getDetailMovie pada interface DetailMoviesApi terpanggil hanya satu kali
+   -memastikan balikan nilai dari fungsi fetchDetailMovies sama dengan mock yakni dari object data class DetailMoviesResponse
+  b.getDetailMoviesFromApiServiceThenNetworkFails
+    - membuat simulasi jika fungsi getDetailMovie pada interface DetailMoviesApi mendapatkan balikan throw dengan pesan error "Something went wrong"
+    - memanggil fungsi fetchDetailMovies pada class DetailService
+    - memastikan fungsi getDetailMovie pada interface DetailMoviesApi terpanggil hanya satu kali
+    - memastikan balikan nilai dari fungsi fetchDetailMovies adalah sama yakni pesan error "Something went wrong"
+  c.getDetailTvShowsFromApiService
+   - membuat simulasi jika fungsi getDetailTv pada interface DetailMoviesApi mendapatkan balikan dengan nilai DetailTvShowsResponse
+   - memanggil fungsi fetchDetailTV pada class DetailService
+   - memastikan fungsi getDetailTv pada interface DetailMoviesApi terpanggil hanya satu kali
+   -memastikan balikan nilai dari fungsi fetchDetailTV sama dengan mock yakni dari object data class DetailTvShowsResponse
+  d.getDetailTvShowsFromApiServiceThenNetworkFails
+    - membuat simulasi jika fungsi getDetailTv pada interface DetailMoviesApi mendapatkan balikan throw dengan pesan error "Something went wrong"
+    - memanggil fungsi fetchDetailTV pada class DetailService
+    - memastikan fungsi getDetailTv pada interface DetailMoviesApi terpanggil hanya satu kali
+    - memastikan balikan nilai dari fungsi fetchDetailTV adalah sama yakni pesan error "Something went wrong"
 ########################################### Unit Testing ###########################################

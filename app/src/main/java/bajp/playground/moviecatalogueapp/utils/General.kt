@@ -9,13 +9,13 @@ import java.util.*
 object General {
     @SuppressLint("SimpleDateFormat")
     fun String.toGetYear():String{
-        val date = SimpleDateFormat("MM/dd/yyyy", Locale("IND","ID")).parse(this)
+        val date = SimpleDateFormat("yyyy-MM-dd", Locale("IND","ID")).parse(this)
         return SimpleDateFormat("yyyy").format(date as Date)
     }
 
     @SuppressLint("SimpleDateFormat")
     fun String.toDateFormatRelease():String{
-        val date = SimpleDateFormat("MM/dd/yyyy", Locale("IND","ID")).parse(this)
+        val date = SimpleDateFormat("yyyy-MM-dd", Locale("IND","ID")).parse(this)
         return SimpleDateFormat("dd MMM  yyyy").format(date as Date)
     }
 
