@@ -1,7 +1,6 @@
 package bajp.playground.moviecatalogueapp.utils
 
 import androidx.test.espresso.IdlingRegistry
-import bajp.playground.moviecatalogueapp.ApplicationModule.idlingResource
 import bajp.playground.moviecatalogueapp.ui.home.HomeActivity
 import com.adevinta.android.barista.rule.BaristaRule
 import org.junit.After
@@ -15,11 +14,11 @@ open class BaseUiTest {
     @Before
     fun setUpActivity(){
         mActivityRule.launchActivity()
-        IdlingRegistry.getInstance().register(idlingResource)
+        IdlingRegistry.getInstance().register(EspressoIdling.getEspressoIdlingResource)
     }
 
     @After
     fun tearDown(){
-        IdlingRegistry.getInstance().unregister(idlingResource)
+        IdlingRegistry.getInstance().unregister(EspressoIdling.getEspressoIdlingResource)
     }
 }

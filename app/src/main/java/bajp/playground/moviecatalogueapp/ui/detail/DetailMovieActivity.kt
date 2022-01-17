@@ -65,7 +65,7 @@ class DetailMovieActivity:AppCompatActivity() {
                 val movie = result.getOrNull()
 
                 with(binding){
-
+//                    EspressoIdling.increment()
                     Glide.with(this@DetailMovieActivity)
                         .asBitmap()
                         .load(movie?.poster)
@@ -83,6 +83,11 @@ class DetailMovieActivity:AppCompatActivity() {
                                     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
                                     if(dominantColor != null) window.statusBarColor = dominantColor
                                 }
+
+//                                if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
+//                                    EspressoIdling.decrement()
+//
+//                                }
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) {

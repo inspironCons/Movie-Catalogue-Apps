@@ -11,26 +11,40 @@ class DetailService @Inject constructor(
 ) {
     suspend fun fetchDetailMovies(id:Int): Flow<Result<DetailMoviesResponse>> {
         return flow {
+//            EspressoIdling.increment()
             val request = detailMoviesApi.getDetailMovie(
                 id,
                 ConstanNameHelper.API_KEY,
                 ConstanNameHelper.LANGUAGE
             )
+//            if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
+//                EspressoIdling.decrement()
+//            }
             emit(Result.success(request))
         }.catch {
+//            if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
+//                EspressoIdling.decrement()
+//            }
             emit(Result.failure(RuntimeException("Something went wrong")))
         }
     }
 
     suspend fun fetchDetailTV(id:Int): Flow<Result<DetailTvShowsResponse>> {
         return flow {
+//            EspressoIdling.increment()
             val request = detailMoviesApi.getDetailTv(
                 id,
                 ConstanNameHelper.API_KEY,
                 ConstanNameHelper.LANGUAGE
             )
+//            if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
+//                EspressoIdling.decrement()
+//            }
             emit(Result.success(request))
         }.catch {
+//            if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
+//                EspressoIdling.decrement()
+//            }
             emit(Result.failure(RuntimeException("Something went wrong")))
         }
     }

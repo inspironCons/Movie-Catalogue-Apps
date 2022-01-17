@@ -9,6 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import bajp.playground.moviecatalogueapp.common.ConstanNameHelper
 import bajp.playground.moviecatalogueapp.data.TrendingEntity
 import bajp.playground.moviecatalogueapp.utils.BaseUiTest
+import bajp.playground.moviecatalogueapp.utils.EspressoIdling
 import bajp.playground.moviecatalogueapp.utils.General.toGetYear
 import bajp.playground.moviecatalogueapp.utils.GeneralTesting
 import com.adevinta.android.barista.assertion.BaristaAssertions.assertAny
@@ -47,7 +48,7 @@ class HomeFeatures:BaseUiTest() {
 
     @Test
     fun showLoaderWhileFetchingTheListMovie() {
-        IdlingRegistry.getInstance().unregister(ApplicationModule.idlingResource)
+        IdlingRegistry.getInstance().unregister(EspressoIdling.getEspressoIdlingResource)
         assertAny<ProgressBar>(withId(R.id.load_content_movies),"Jika gagal coba test pada fungsi showLoaderWhileFetchingTheListMovie"){
             it.visibility == View.VISIBLE
         }
@@ -55,7 +56,7 @@ class HomeFeatures:BaseUiTest() {
 
     @Test
     fun showLoaderWhileFetchingTheListTvShows() {
-        IdlingRegistry.getInstance().unregister(ApplicationModule.idlingResource)
+        IdlingRegistry.getInstance().unregister(EspressoIdling.getEspressoIdlingResource)
         onView(withId(R.id.tl_home)).perform(general.selectTabAtPosition(1))
         assertAny<ProgressBar>(withId(R.id.load_content_tv_show),"Jika gagal coba test pada fungsi showLoaderWhileFetchingTheListTvShows"){
             it.visibility == View.VISIBLE

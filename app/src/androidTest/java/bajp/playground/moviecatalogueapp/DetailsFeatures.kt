@@ -58,7 +58,6 @@ class DetailsFeatures:BaseUiTest() {
         clickListItem(R.id.rv_movies, numTestingPosition)
         assertDisplayed(R.id.detail_activity)
         //display  poster
-        Thread.sleep(2000) // delay for loading image proses from url to bitmap on glide
         assertHasAnyDrawable(R.id.movie_poster_detail)
         // display title
         assertDisplayed(R.id.movie_title_detail,mockDataMovies.title?:"")

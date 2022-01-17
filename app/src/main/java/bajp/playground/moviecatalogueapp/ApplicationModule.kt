@@ -30,7 +30,6 @@ object ApplicationModule {
         .addNetworkInterceptor(FlipperOkhttpInterceptor(networkFlipperPlugin))
         .build()
 
-    val idlingResource = OkHttp3IdlingResource.create("Global", client)
     @Provides
     fun retrofit():Retrofit = Retrofit.Builder()
         .baseUrl(ConstanNameHelper.BASE_URL)
