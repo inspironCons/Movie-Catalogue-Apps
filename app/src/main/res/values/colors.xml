@@ -7,4 +7,6 @@
     <color name="primary_color_29">#50FFD363</color>
     <color name="text_color">#DBDBDB</color>
     <color name="bg_color">#1F1F1F</color>
+    <color name="pink">#F56FAD</color>
+    <color name="grey_color">#474747</color>
 </resources>

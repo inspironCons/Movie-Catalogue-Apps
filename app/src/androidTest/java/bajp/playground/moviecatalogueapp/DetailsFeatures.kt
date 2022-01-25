@@ -1,19 +1,21 @@
 package bajp.playground.moviecatalogueapp
 
 import android.app.Instrumentation
+import android.content.Context
 import android.content.Intent
-import androidx.test.espresso.Espresso
+import android.content.res.ColorStateList
+import androidx.core.content.ContextCompat
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
-import androidx.test.espresso.matcher.ViewMatchers
-import bajp.playground.moviecatalogueapp.common.ConstanNameHelper
-import bajp.playground.moviecatalogueapp.data.CompaniesEntity
-import bajp.playground.moviecatalogueapp.data.DetailMovieEntity
-import bajp.playground.moviecatalogueapp.data.GenresEntity
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import bajp.playground.moviecatalogueapp.utils.BaseUiTest
+import bajp.playground.moviecatalogueapp.utils.General
 import bajp.playground.moviecatalogueapp.utils.General.toDateFormatRelease
 import bajp.playground.moviecatalogueapp.utils.GeneralTesting
 import com.adevinta.android.barista.assertion.BaristaImageViewAssertions.assertHasAnyDrawable
@@ -21,37 +23,31 @@ import com.adevinta.android.barista.assertion.BaristaRecyclerViewAssertions.asse
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 import com.adevinta.android.barista.interaction.BaristaListInteractions.clickListItem
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.allOf
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.*
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 
 
 class DetailsFeatures:BaseUiTest() {
     private val numTestingPosition = 0
-    private val mockDataMovies = DetailMovieEntity(
-        movieId = 634649,
-        title = "Spider-Man: No Way Home",
-        tagline = "The Multiverse unleashed.",
-        poster = ConstanNameHelper.BASE_URL_IMAGE +"/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
-        overview = "Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.",
-        userScore = 84,
-        releaseDate="2021-12-15",
-        category = listOf(
-            GenresEntity(28,"Action"),
-            GenresEntity(12,"Adventure"),
-            GenresEntity(878,"Science Fiction")
-        ),
-        urlWatch = "https://www.spidermannowayhome.movie",
-        productionCountry = "US",
-        companies = listOf(
-            CompaniesEntity(ConstanNameHelper.BASE_URL_IMAGE+"/hUzeosd33nzE5MCNsZxCGEKTXaQ.png", "Marvel Studios"),
-            CompaniesEntity(ConstanNameHelper.BASE_URL_IMAGE+"/nw4kyc29QRpNtFbdsBHkRSFavvt.png", "Pascal Pictures"),
-            CompaniesEntity(ConstanNameHelper.BASE_URL_IMAGE+"/71BqEFAF4V3qjjMPCpLuyJFB9A.png", "Columbia Pictures"),
-        )
-    )
+    private val mockDataMovies = General.dummyDataMoviesType()
+    private val mockTvShows = General.dummyDataTvShowsType()
 
     private val general = GeneralTesting()
 
+    @Before
+    fun setDb(){
+        this.createDbFavorite()
+    }
+
+    @After
+    fun dbClose(){
+        this.db.close()
+    }
 
     @Test
     fun loadDetailsMovies(){
@@ -94,7 +90,7 @@ class DetailsFeatures:BaseUiTest() {
     @Test
     fun navigateBackButton(){
         clickListItem(R.id.rv_movies, numTestingPosition)
-        clickOn(R.id.btn_menus)
+        clickOn(R.id.btn_back)
         assertDisplayed(R.id.home_page_layout)
     }
 
@@ -102,10 +98,44 @@ class DetailsFeatures:BaseUiTest() {
     fun checkLabelProductionOrNetwork(){
         clickListItem(R.id.rv_movies, numTestingPosition)
         assertDisplayed(R.id.tv_lable_companies,R.string.companies)
-        clickOn(R.id.btn_menus)
-        Espresso.onView(ViewMatchers.withId(R.id.tl_home)).perform(general.selectTabAtPosition(1))
+        clickOn(R.id.btn_back)
+        onView(withId(R.id.tl_home)).perform(general.selectTabAtPosition(1))
         clickListItem(R.id.rv_tv_show, numTestingPosition)
         assertDisplayed(R.id.tv_lable_companies,R.string.network)
 
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun testInsertDataToFavoriteDb() = runBlocking{
+        clickListItem(R.id.rv_movies, numTestingPosition)
+        this@DetailsFeatures.favoriteDao.insert(mockDataMovies)
+        val data = this@DetailsFeatures.favoriteDao.observeAllData()
+        assertThat(data, contains(mockDataMovies))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testDeleteDataToFavoriteDb() = runBlocking{
+        clickListItem(R.id.rv_movies, numTestingPosition)
+        this@DetailsFeatures.favoriteDao.insert(mockDataMovies)
+        this@DetailsFeatures.favoriteDao.delete(mockDataMovies)
+        val data = this@DetailsFeatures.favoriteDao.observeAllData()
+        assertThat(data, not(hasItem(data)))
+    }
+
+    @Test
+    fun changeColorWhenClickBtnFavorite(){
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        clickListItem(R.id.rv_movies, numTestingPosition)
+        onView(withId(R.id.fab_favorite)).check(matches(general.checkColorFab(ColorStateList.valueOf(
+            ContextCompat.getColor(context,
+                R.color.white)))))
+
+        clickOn(R.id.fab_favorite)
+        onView(withId(R.id.fab_favorite)).check(matches(general.checkColorFab(ColorStateList.valueOf(
+            ContextCompat.getColor(context,
+                R.color.pink)))))
+    }
 }
+

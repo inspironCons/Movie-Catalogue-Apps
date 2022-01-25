@@ -18,6 +18,7 @@ import com.adevinta.android.barista.assertion.BaristaRecyclerViewAssertions.asse
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickBack
+import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 import com.adevinta.android.barista.interaction.BaristaListInteractions.clickListItem
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,7 +31,7 @@ class HomeFeatures:BaseUiTest() {
         title = "Spider-Man: No Way Home",
         poster = ConstanNameHelper.BASE_URL_IMAGE+"/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
         releaseDate = "2021-12-15",
-        voteAverage = (8.4 * 10.0).toInt(),
+        voteAverage = (8.5 * 10.0).toInt(),
         originLanguage = "en"
     )
 
@@ -39,11 +40,12 @@ class HomeFeatures:BaseUiTest() {
         title = "The Book of Boba Fett",
         poster = ConstanNameHelper.BASE_URL_IMAGE+"/gNbdjDi1HamTCrfvM9JeA94bNi2.jpg",
         releaseDate = "2021-12-29",
-        voteAverage = (8.2 * 10.0).toInt(),
+        voteAverage = (8.1 * 10.0).toInt(),
         originLanguage = "en"
     )
 
-    private val testingItemsNum = 0
+    private val testingItemsNumMovie = 0
+    private val testingItemsNumTvShows = 2
     private val general = GeneralTesting()
 
     @Test
@@ -81,12 +83,12 @@ class HomeFeatures:BaseUiTest() {
         assertRecyclerViewItemCount(R.id.rv_movies,20)
         val years = mockDataMovies.releaseDate?.toGetYear()
         assertDisplayedAtPosition(
-            R.id.rv_movies,testingItemsNum,
+            R.id.rv_movies,testingItemsNumMovie,
             R.id.movie_title,
             "${mockDataMovies.title} ($years)")
 
-        assertDisplayedAtPosition(R.id.rv_movies,testingItemsNum,R.id.movie_score,"${mockDataMovies.voteAverage}%")
-        assertDisplayedAtPosition(R.id.rv_movies,testingItemsNum,R.id.movie_ori_language,mockDataMovies.originLanguage?.uppercase()?:"")
+        assertDisplayedAtPosition(R.id.rv_movies,testingItemsNumMovie,R.id.movie_score,"${mockDataMovies.voteAverage}%")
+        assertDisplayedAtPosition(R.id.rv_movies,testingItemsNumMovie,R.id.movie_ori_language,mockDataMovies.originLanguage?.uppercase()?:"")
 
     }
 
@@ -97,21 +99,27 @@ class HomeFeatures:BaseUiTest() {
         val years = mockDataTvShows.releaseDate?.toGetYear()
         assertDisplayedAtPosition(
             R.id.rv_tv_show,
-            testingItemsNum,
+            testingItemsNumTvShows,
             R.id.movie_title,
             "${mockDataTvShows.title} ($years)")
 
-        assertDisplayedAtPosition(R.id.rv_tv_show,testingItemsNum,R.id.movie_score,"${mockDataTvShows.voteAverage}%")
-        assertDisplayedAtPosition(R.id.rv_tv_show,testingItemsNum,R.id.movie_ori_language,mockDataTvShows.originLanguage?.uppercase()?:"")
+        assertDisplayedAtPosition(R.id.rv_tv_show,testingItemsNumTvShows,R.id.movie_score,"${mockDataTvShows.voteAverage}%")
+        assertDisplayedAtPosition(R.id.rv_tv_show,testingItemsNumTvShows,R.id.movie_ori_language,mockDataTvShows.originLanguage?.uppercase()?:"")
     }
 
     @Test
     fun navigateToDetailMovies(){
-        clickListItem(R.id.rv_movies,testingItemsNum)
+        clickListItem(R.id.rv_movies,testingItemsNumMovie)
         assertDisplayed(R.id.detail_activity)
         clickBack()
         onView(withId(R.id.tl_home)).perform(general.selectTabAtPosition(1))
-        clickListItem(R.id.rv_tv_show,testingItemsNum)
+        clickListItem(R.id.rv_tv_show,testingItemsNumTvShows)
         assertDisplayed(R.id.detail_activity)
+    }
+
+    @Test
+    fun navigateToFavoriteList(){
+        clickOn(R.id.btn_favorite)
+        assertDisplayed(R.id.favorite_list_layout)
     }
 }

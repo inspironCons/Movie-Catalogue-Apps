@@ -1,4 +1,4 @@
-package bajp.playground.moviecatalogueapp.ui.tvshow
+package bajp.playground.moviecatalogueapp.ui.home.tvshow
 
 import android.content.Intent
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package bajp.playground.moviecatalogueapp.repository.movie
+package bajp.playground.moviecatalogueapp.repository
 
 import bajp.playground.moviecatalogueapp.data.TrendingEntity
 import bajp.playground.moviecatalogueapp.remote.network.trending.TrendingMovieMapper

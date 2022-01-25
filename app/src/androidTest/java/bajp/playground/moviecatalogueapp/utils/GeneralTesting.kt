@@ -1,12 +1,17 @@
 package bajp.playground.moviecatalogueapp.utils
 
+import android.content.res.ColorStateList
 import android.view.View
 import androidx.test.espresso.PerformException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
+import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
+import org.hamcrest.Description
+import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 
 class GeneralTesting {
@@ -24,6 +29,18 @@ class GeneralTesting {
                         .build()
 
                 tabAtIndex.select()
+            }
+        }
+    }
+
+    fun checkColorFab(color: ColorStateList): Matcher<View?> {
+        return object : BoundedMatcher<View?, FloatingActionButton>(FloatingActionButton::class.java) {
+            override fun matchesSafely(fab: FloatingActionButton): Boolean {
+                return color == fab.imageTintList
+            }
+
+            override fun describeTo(description: Description) {
+
             }
         }
     }

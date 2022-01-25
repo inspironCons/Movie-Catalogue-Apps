@@ -1,8 +1,8 @@
 package bajp.playground.moviewcatalogueapp.movies
 
 import bajp.playground.moviecatalogueapp.data.TrendingEntity
-import bajp.playground.moviecatalogueapp.repository.movie.MovieRepository
-import bajp.playground.moviecatalogueapp.ui.movies.MoviesViewModel
+import bajp.playground.moviecatalogueapp.repository.MovieRepository
+import bajp.playground.moviecatalogueapp.ui.home.movies.MoviesViewModel
 import bajp.playground.moviewcatalogueapp.utils.BaseUnitTest
 import bajp.playground.moviewcatalogueapp.utils.captureValues
 import bajp.playground.moviewcatalogueapp.utils.getValueForTest
@@ -17,9 +17,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.util.*
 
+
+
 class MoviesViewModelShould: BaseUnitTest() {
 
-    private val movieRepo:MovieRepository = mock()
+    private val movieRepo: MovieRepository = mock()
     private val mockMovieList = mock<List<TrendingEntity>>()
     private val expectedSuccess = Result.success(mockMovieList)
     private val expectedEmpty = Result.success(Collections.emptyList<TrendingEntity>())

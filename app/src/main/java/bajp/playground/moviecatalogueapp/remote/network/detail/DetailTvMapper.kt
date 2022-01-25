@@ -21,7 +21,9 @@ class DetailTvMapper @Inject constructor(
             category = categoryMapper(details?.genres),
             urlWatch = details?.homepage,
             productionCountry = details?.productionCountries?.get(0)?.iso31661,
-            companies = companiesMapper(details?.productionCompanies)
+            companies = companiesMapper(details?.productionCompanies),
+            originLanguage=details?.originalLanguage
+
         )
     }
 }

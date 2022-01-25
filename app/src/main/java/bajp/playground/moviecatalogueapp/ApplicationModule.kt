@@ -1,14 +1,19 @@
 package bajp.playground.moviecatalogueapp
 
+import android.content.Context
+import androidx.room.Room
 import bajp.playground.moviecatalogueapp.common.ConstanNameHelper
+import bajp.playground.moviecatalogueapp.common.ConstanNameHelper.DB_NAME
+import bajp.playground.moviecatalogueapp.remote.local.database.MovieDatabase
+import bajp.playground.moviecatalogueapp.remote.local.database.dao.FavoriteDao
 import bajp.playground.moviecatalogueapp.remote.network.detail.DetailMoviesApi
 import bajp.playground.moviecatalogueapp.remote.network.trending.TrendingApi
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
-import com.jakewharton.espresso.OkHttp3IdlingResource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -42,4 +47,13 @@ object ApplicationModule {
 
     @Provides
     fun detailMoviesApi(retrofit: Retrofit):DetailMoviesApi = retrofit.create(DetailMoviesApi::class.java)
+
+    @Singleton
+    @Provides
+    fun dbInstance(@ApplicationContext app:Context):MovieDatabase = Room
+        .databaseBuilder(app,MovieDatabase::class.java,DB_NAME)
+        .build()
+
+    @Provides
+    fun favoriteDao(db:MovieDatabase):FavoriteDao = db.favoriteDao()
 }

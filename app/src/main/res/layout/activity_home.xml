@@ -32,12 +32,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/greeting" />
 
+    <ImageView
+        android:id="@+id/btn_favorite_layout"
+        style="@style/menuBackGlassmorph"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/bg_glassmorph_primary_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"/>
+
+    <ImageButton
+        android:id="@+id/btn_favorite"
+        style="@style/menuBackGlassmorph"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:contentDescription="@string/back_button"
+        android:padding="6dp"
+        android:src="@drawable/ic_favorite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
         android:orientation="vertical"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:layout_editor_absoluteX="16dp">
@@ -59,10 +79,10 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="2dp"
             android:src="@drawable/bg_liner"
-            android:layout_marginHorizontal="16dp"
-            tools:ignore="ContentDescription"/>
+            tools:ignore="ContentDescription" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_home"

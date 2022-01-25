@@ -1,4 +1,4 @@
-package bajp.playground.moviecatalogueapp.ui.movies
+package bajp.playground.moviecatalogueapp.ui.home.tvshow
 
 import android.graphics.Typeface
 import android.os.Build
@@ -17,20 +17,19 @@ import bajp.playground.moviecatalogueapp.utils.General.toGetYear
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-class MoviesAdapter:RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
-    private var listMovies = ArrayList<TrendingEntity>()
-    private lateinit var itemCallback:ItemsCallback
+class TvShowsAdapter:RecyclerView.Adapter<TvShowsAdapter.ViewHolder>() {
+    private var listTvShow = ArrayList<TrendingEntity>()
+    private lateinit var itemCallback: ItemsCallback
+
     inner class ViewHolder(private val binding: ItemsMoviesBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(movie:TrendingEntity){
             with(binding){
-
                 Glide.with(itemView.context)
                     .load(movie.poster)
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_image_loader).error(R.drawable.ic_empty_poster))
                     .into(moviePoster)
 
-                val getToYear = movie.releaseDate?.toGetYear()
-                val title = itemView.context.getString(R.string.movie_title_and_years,movie.title,"(${getToYear})")
+                val title = itemView.context.getString(R.string.movie_title_and_years,movie.title,"(${movie.releaseDate?.toGetYear()})")
                 val spanText = SpannableString(title)
                 val thinTextLength = title.length - 6
                 val size = AbsoluteSizeSpan(14,true)
@@ -39,13 +38,14 @@ class MoviesAdapter:RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
                     val typeFace = Typeface.create(ResourcesCompat.getFont(itemView.context,R.font.roboto_thin),Typeface.NORMAL)
                     spanText.setSpan(TypefaceSpan(typeFace),thinTextLength,title.length,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     movieTitle.text = spanText
-                }else{ 
+                }else{
                     movieTitle.text = spanText
                 }
 
                 movieScore.text = itemView.context.getString(R.string.movie_score,movie.voteAverage)
-                movieScoreGraph.progress = movie.voteAverage ?: 0
+                movieScoreGraph.progress = movie.voteAverage ?:0
                 movieOriLanguage.text = movie.originLanguage?.uppercase()
+
 
                 itemView.setOnClickListener { itemCallback.onClickItem(movie) }
             }
@@ -54,8 +54,8 @@ class MoviesAdapter:RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
     fun setMovies(list:List<TrendingEntity>?){
         if(list.isNullOrEmpty())return
-        this.listMovies.clear()
-        this.listMovies.addAll(list)
+        this.listTvShow.clear()
+        this.listTvShow.addAll(list)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -64,12 +64,11 @@ class MoviesAdapter:RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data = listMovies[position]
+        val data = listTvShow[position]
         holder.bind(data)
     }
 
-    override fun getItemCount(): Int = listMovies.size
-
+    override fun getItemCount(): Int = listTvShow.size
     fun setOnClickListener(itemCallback:ItemsCallback){
         this.itemCallback = itemCallback
     }

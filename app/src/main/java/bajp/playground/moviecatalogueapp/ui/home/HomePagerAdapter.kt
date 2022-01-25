@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import bajp.playground.moviecatalogueapp.ui.movies.MoviesFragment
-import bajp.playground.moviecatalogueapp.ui.tvshow.TvShowFragment
+import bajp.playground.moviecatalogueapp.ui.home.movies.MoviesFragment
+import bajp.playground.moviecatalogueapp.ui.home.tvshow.TvShowFragment
 
 class HomePagerAdapter(
     fm:FragmentManager,

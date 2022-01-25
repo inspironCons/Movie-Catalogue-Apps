@@ -6,5 +6,5 @@ data class TrendingEntity (
     var poster:String? = "",
     var releaseDate:String? = "",
     var voteAverage:Int? = 0,
-    val originLanguage:String? = ""
+    var originLanguage:String? = "",
 )

@@ -2,6 +2,7 @@ package bajp.playground.moviecatalogueapp.ui.detail
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.graphics.text.LineBreaker
@@ -9,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -41,11 +43,12 @@ class DetailMovieActivity:AppCompatActivity() {
         setContentView(binding.root)
         viewModel = ViewModelProvider(this,movieRepoFactory)[DetailMovieViewModel::class.java]
         getDetail()
+        clickFavorite()
         onBackNav()
     }
 
     private fun onBackNav() {
-        binding.btnMenu.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             onBackPressed()
         }
     }
@@ -61,8 +64,11 @@ class DetailMovieActivity:AppCompatActivity() {
             }else{
                 binding.tvLableCompanies.text = getString(R.string.companies)
             }
-            viewModel.detailMovie(id,type).observe(this){ result->
-                val movie = result.getOrNull()
+            viewModel.detailMovie(id,type).observe(this){ data->
+                val movie = data.getOrNull()
+                viewModel.setDetailMovie(movie,type)
+                viewModel.checkFavorite()
+                checkIsFavorite()
 
                 with(binding){
 //                    EspressoIdling.increment()
@@ -112,6 +118,35 @@ class DetailMovieActivity:AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun checkIsFavorite(){
+        viewModel.getFavorite().observe(this){state->
+            if(state){
+                binding.fabFavorite.imageTintList = ColorStateList.valueOf(
+                    ContextCompat.getColor(this,
+                        R.color.pink))
+            }else{
+                binding.fabFavorite.imageTintList = ColorStateList.valueOf(
+                    ContextCompat.getColor(this,
+                        R.color.white))
+            }
+        }
+
+
+    }
+
+    private fun clickFavorite(){
+        binding.fabFavorite.setOnClickListener {
+            viewModel.saveToFavorite().observe(this){ msg->
+                var toast: Toast? = null
+                toast?.cancel()
+                toast = Toast.makeText(this@DetailMovieActivity, msg.getOrDefault(""),Toast.LENGTH_SHORT)
+                toast?.show()
+                viewModel.checkFavorite()
+            }
+
+        }
     }
 
     private fun generateCast(companies: List<CompaniesEntity>?) {

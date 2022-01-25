@@ -2,7 +2,7 @@ package bajp.playground.moviewcatalogueapp.repository
 
 import bajp.playground.moviecatalogueapp.data.DetailMovieEntity
 import bajp.playground.moviecatalogueapp.remote.network.detail.*
-import bajp.playground.moviecatalogueapp.repository.movie.DetailMovieRepository
+import bajp.playground.moviecatalogueapp.repository.DetailMovieRepository
 import bajp.playground.moviewcatalogueapp.utils.BaseUnitTest
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
@@ -29,7 +29,7 @@ class DetailMovieRepositoryShould:BaseUnitTest() {
 
     private val resultFailure = RuntimeException("Something Wrong")
 
-    private suspend fun repoMoviesSuccessfulCase():DetailMovieRepository{
+    private suspend fun repoMoviesSuccessfulCase(): DetailMovieRepository {
         whenever(detailService.fetchDetailMovies(idMovieTesting)).thenReturn(
             flow {
                 emit(Result.success(detailResponseMovieMock))
@@ -39,7 +39,7 @@ class DetailMovieRepositoryShould:BaseUnitTest() {
         return DetailMovieRepository(detailService,detailMoviesMapper,detailTvMapper)
     }
 
-    private suspend fun repoMoviesFailureCase():DetailMovieRepository{
+    private suspend fun repoMoviesFailureCase(): DetailMovieRepository {
         whenever(detailService.fetchDetailMovies(idMovieTesting)).thenReturn(
             flow {
                 emit(Result.failure(resultFailure))
@@ -48,7 +48,7 @@ class DetailMovieRepositoryShould:BaseUnitTest() {
         return DetailMovieRepository(detailService,detailMoviesMapper,detailTvMapper)
     }
 
-    private suspend fun repoTvShowSuccessfulCase():DetailMovieRepository{
+    private suspend fun repoTvShowSuccessfulCase(): DetailMovieRepository {
         whenever(detailService.fetchDetailTV(idTvTesting)).thenReturn(
             flow {
                 emit(Result.success(detailResponseTvMock))
@@ -58,7 +58,7 @@ class DetailMovieRepositoryShould:BaseUnitTest() {
         return DetailMovieRepository(detailService,detailMoviesMapper,detailTvMapper)
     }
 
-    private suspend fun repoTvFailureCase():DetailMovieRepository{
+    private suspend fun repoTvFailureCase(): DetailMovieRepository {
         whenever(detailService.fetchDetailTV(idTvTesting)).thenReturn(
             flow {
                 emit(Result.failure(resultFailure))

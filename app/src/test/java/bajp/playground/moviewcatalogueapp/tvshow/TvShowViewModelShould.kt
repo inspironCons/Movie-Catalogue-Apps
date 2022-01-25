@@ -1,8 +1,8 @@
 package bajp.playground.moviewcatalogueapp.tvshow
 
 import bajp.playground.moviecatalogueapp.data.TrendingEntity
-import bajp.playground.moviecatalogueapp.repository.movie.MovieRepository
-import bajp.playground.moviecatalogueapp.ui.tvshow.TvShowViewModel
+import bajp.playground.moviecatalogueapp.repository.MovieRepository
+import bajp.playground.moviecatalogueapp.ui.home.tvshow.TvShowViewModel
 import bajp.playground.moviewcatalogueapp.utils.BaseUnitTest
 import bajp.playground.moviewcatalogueapp.utils.captureValues
 import bajp.playground.moviewcatalogueapp.utils.getValueForTest

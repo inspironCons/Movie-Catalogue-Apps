@@ -2,7 +2,7 @@ package bajp.playground.moviewcatalogueapp.repository
 
 import bajp.playground.moviecatalogueapp.data.TrendingEntity
 import bajp.playground.moviecatalogueapp.remote.network.trending.*
-import bajp.playground.moviecatalogueapp.repository.movie.MovieRepository
+import bajp.playground.moviecatalogueapp.repository.MovieRepository
 import bajp.playground.moviewcatalogueapp.utils.BaseUnitTest
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
@@ -25,7 +25,7 @@ class MovieRepositoryShould:BaseUnitTest() {
     private val tvShowsListFromNetwork = mock<List<ResultsTvResponse>>()
     private val exception = RuntimeException("Ops something went wrong")
 
-    private suspend fun mockMovieSuccessCase():MovieRepository{
+    private suspend fun mockMovieSuccessCase(): MovieRepository {
         whenever(service.fetchApiMovieList()).thenReturn(
             flow {
                 emit(Result.success(movieListFromNetwork))
@@ -35,7 +35,7 @@ class MovieRepositoryShould:BaseUnitTest() {
         return MovieRepository(service,mapperMovie,mapperTv)
     }
 
-    private suspend fun mockMovieFailureCase():MovieRepository{
+    private suspend fun mockMovieFailureCase(): MovieRepository {
         whenever(service.fetchApiMovieList()).thenReturn(
             flow {
                 emit(Result.failure(exception))
@@ -44,7 +44,7 @@ class MovieRepositoryShould:BaseUnitTest() {
         return MovieRepository(service,mapperMovie,mapperTv)
     }
 
-    private suspend fun mockTvSuccessCase():MovieRepository{
+    private suspend fun mockTvSuccessCase(): MovieRepository {
         whenever(service.fetchApiTvList()).thenReturn(
             flow {
                 emit(Result.success(tvShowsListFromNetwork))
@@ -54,7 +54,7 @@ class MovieRepositoryShould:BaseUnitTest() {
         return MovieRepository(service,mapperMovie,mapperTv)
     }
 
-    private suspend fun mockTvFailureCase():MovieRepository{
+    private suspend fun mockTvFailureCase(): MovieRepository {
         whenever(service.fetchApiTvList()).thenReturn(
             flow {
                 emit(Result.failure(exception))

@@ -2,9 +2,9 @@ package bajp.playground.moviecatalogueapp.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import bajp.playground.moviecatalogueapp.repository.movie.MovieRepository
-import bajp.playground.moviecatalogueapp.ui.movies.MoviesViewModel
-import bajp.playground.moviecatalogueapp.ui.tvshow.TvShowViewModel
+import bajp.playground.moviecatalogueapp.repository.MovieRepository
+import bajp.playground.moviecatalogueapp.ui.home.movies.MoviesViewModel
+import bajp.playground.moviecatalogueapp.ui.home.tvshow.TvShowViewModel
 import javax.inject.Inject
 
 class ViewModelMovieRepoFactory @Inject constructor(

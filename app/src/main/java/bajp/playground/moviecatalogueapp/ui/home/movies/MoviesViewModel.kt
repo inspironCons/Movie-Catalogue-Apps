@@ -1,10 +1,10 @@
-package bajp.playground.moviecatalogueapp.ui.movies
+package bajp.playground.moviecatalogueapp.ui.home.movies
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
-import bajp.playground.moviecatalogueapp.repository.movie.MovieRepository
+import bajp.playground.moviecatalogueapp.repository.MovieRepository
 import kotlinx.coroutines.flow.onEach
 
 class MoviesViewModel(

@@ -1,9 +1,11 @@
 package bajp.playground.moviecatalogueapp.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import bajp.playground.moviecatalogueapp.R
 import bajp.playground.moviecatalogueapp.databinding.ActivityHomeBinding
+import bajp.playground.moviecatalogueapp.ui.favorite.FavoriteActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,6 +18,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.elevation = 0f
         initTabsView()
+        navigateToFavorite()
     }
 
     private fun initTabsView(){
@@ -28,6 +31,12 @@ class HomeActivity : AppCompatActivity() {
                 else -> ""
             }
         }.attach()
+    }
+
+    private fun navigateToFavorite(){
+        binding.btnFavorite.setOnClickListener {
+            startActivity(Intent(this,FavoriteActivity::class.java))
+        }
     }
 
     override fun onBackPressed() {

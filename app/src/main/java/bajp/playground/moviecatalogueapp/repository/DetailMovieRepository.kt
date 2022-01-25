@@ -1,4 +1,4 @@
-package bajp.playground.moviecatalogueapp.repository.movie
+package bajp.playground.moviecatalogueapp.repository
 
 import bajp.playground.moviecatalogueapp.data.DetailMovieEntity
 import bajp.playground.moviecatalogueapp.remote.network.detail.DetailMoviesMapper
@@ -14,7 +14,7 @@ class DetailMovieRepository @Inject constructor(
     private val detailTvMapper:DetailTvMapper
 ) {
 
-    suspend fun getDetailMovies(id:Int):Flow<Result<DetailMovieEntity>> =
+    fun getDetailMovies(id:Int):Flow<Result<DetailMovieEntity>> =
         service.fetchDetailMovies(id).map {
             if(it.isSuccess){
                 Result.success(detailMovieMapper(it.getOrNull()))
