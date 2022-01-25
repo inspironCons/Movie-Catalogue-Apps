@@ -6,9 +6,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import bajp.playground.moviecatalogueapp.ui.favorite.movies.MoviesFavoriteFragment
 import bajp.playground.moviecatalogueapp.ui.favorite.tvshows.TvShowsFavoriteFragment
-import bajp.playground.moviecatalogueapp.ui.favorite.tvshows.TvShowsFavoriteViewModel
-import bajp.playground.moviecatalogueapp.ui.home.movies.MoviesFragment
-import bajp.playground.moviecatalogueapp.ui.home.tvshow.TvShowFragment
 
 class FavoritePagerAdapter(
     fm:FragmentManager,

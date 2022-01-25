@@ -1,6 +1,5 @@
 package bajp.playground.moviecatalogueapp.utils
 
-import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.idling.CountingIdlingResource
 
 object EspressoIdling {

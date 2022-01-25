@@ -36,7 +36,7 @@ class FavoriteViewModelsShould:BaseUnitTest() {
     private val listMovie = mock<List<DetailMovieEntity>>()
     private val pageSourceMock =  mock<PagingSource<Int,DetailMovieEntity>>()
 
-    val noopListUpdateCallback = object : ListUpdateCallback {
+    private val noopListUpdateCallback = object : ListUpdateCallback {
         override fun onInserted(position: Int, count: Int) {}
         override fun onRemoved(position: Int, count: Int) {}
         override fun onMoved(fromPosition: Int, toPosition: Int) {}

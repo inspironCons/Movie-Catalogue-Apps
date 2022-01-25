@@ -35,7 +35,6 @@ import org.junit.Test
 class DetailsFeatures:BaseUiTest() {
     private val numTestingPosition = 0
     private val mockDataMovies = General.dummyDataMoviesType()
-    private val mockTvShows = General.dummyDataTvShowsType()
 
     private val general = GeneralTesting()
 

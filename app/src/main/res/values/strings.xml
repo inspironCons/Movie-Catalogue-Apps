@@ -13,7 +13,6 @@
     <string name="companies">Production Companies</string>
     <string name="network">Network</string>
     <string name="tagline">\" %s \"</string>
-    <string name="button_favorite">Button Favorite</string>
     <string name="fab_content_desc">button favorite</string>
 
 </resources>
