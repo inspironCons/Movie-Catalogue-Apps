@@ -20,6 +20,7 @@ import bajp.playground.moviecatalogueapp.R
 import bajp.playground.moviecatalogueapp.common.ConstanNameHelper
 import bajp.playground.moviecatalogueapp.data.CompaniesEntity
 import bajp.playground.moviecatalogueapp.databinding.ActivityDetailMovieBinding
+import bajp.playground.moviecatalogueapp.utils.EspressoIdling
 import bajp.playground.moviecatalogueapp.utils.General.toDateFormatRelease
 import bajp.playground.moviecatalogueapp.viewModel.ViewModelDetailMovieRepoFactory
 import com.bumptech.glide.Glide
@@ -59,12 +60,13 @@ class DetailMovieActivity:AppCompatActivity() {
         if(extra != null){
             val id = extra.getInt(idMovie)
             val type = extra.getString(type) as String
+            val local = extra.getBoolean(local)
             if(type == ConstanNameHelper.TV_TYPE){
                 binding.tvLableCompanies.text = getString(R.string.network)
             }else{
                 binding.tvLableCompanies.text = getString(R.string.companies)
             }
-            viewModel.detailMovie(id,type).observe(this){ data->
+            viewModel.detailMovie(id,type,local).observe(this){ data->
                 val movie = data.getOrNull()
                 viewModel.setDetailMovie(movie,type)
                 viewModel.checkFavorite()
@@ -171,6 +173,6 @@ class DetailMovieActivity:AppCompatActivity() {
     companion object{
         const val idMovie = "idMovie"
         const val type = "TYPE"
-
+        const val local = "isLocal"
     }
 }

@@ -1,5 +1,11 @@
 Muhammad Ramdhon ###################################################################### Dodon.Consult@gmail.com
 ########################################### Instrument Testing ###########################################
+untuk kelancaran testing harap uncomment esprosso idling yang berada di
+1.DetailMovieActivity.kt
+2.DetailService.kt
+3.TrendingService.kt
+4.FavoriteRepository.kt
+
 
 1)HomeFeatures
   1. displayMoviePlaylist

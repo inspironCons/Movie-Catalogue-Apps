@@ -13,4 +13,6 @@ object ConstanNameHelper {
 
     const val MOVIES_TYPE = "MOVIES_TYPE"
     const val TV_TYPE = "TV_TYPE"
+    const val LOCAL_TYPE = "LOCAL_TYPE"
+
 }

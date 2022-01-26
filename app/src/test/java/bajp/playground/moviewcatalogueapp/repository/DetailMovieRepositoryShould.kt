@@ -1,6 +1,7 @@
 package bajp.playground.moviewcatalogueapp.repository
 
 import bajp.playground.moviecatalogueapp.data.DetailMovieEntity
+import bajp.playground.moviecatalogueapp.remote.local.database.dao.FavoriteDao
 import bajp.playground.moviecatalogueapp.remote.network.detail.*
 import bajp.playground.moviecatalogueapp.repository.DetailMovieRepository
 import bajp.playground.moviewcatalogueapp.utils.BaseUnitTest
@@ -14,7 +15,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
-
+@ExperimentalCoroutinesApi
 class DetailMovieRepositoryShould:BaseUnitTest() {
     private val idMovieTesting = 634649
     private val idTvTesting = 115036
@@ -22,6 +23,7 @@ class DetailMovieRepositoryShould:BaseUnitTest() {
     private val detailService:DetailService = mock()
     private val detailMoviesMapper:DetailMoviesMapper = mock()
     private val detailTvMapper:DetailTvMapper = mock()
+    private val favoriteDao:FavoriteDao = mock()
 
     private val detailMock = mock<DetailMovieEntity>()
     private val detailResponseMovieMock = mock<DetailMoviesResponse>()
@@ -36,7 +38,7 @@ class DetailMovieRepositoryShould:BaseUnitTest() {
             }
         )
         whenever(detailMoviesMapper.invoke(detailResponseMovieMock)).thenReturn(detailMock)
-        return DetailMovieRepository(detailService,detailMoviesMapper,detailTvMapper)
+        return DetailMovieRepository(detailService,detailMoviesMapper,detailTvMapper,favoriteDao)
     }
 
     private suspend fun repoMoviesFailureCase(): DetailMovieRepository {
@@ -45,7 +47,7 @@ class DetailMovieRepositoryShould:BaseUnitTest() {
                 emit(Result.failure(resultFailure))
             }
         )
-        return DetailMovieRepository(detailService,detailMoviesMapper,detailTvMapper)
+        return DetailMovieRepository(detailService,detailMoviesMapper,detailTvMapper,favoriteDao)
     }
 
     private suspend fun repoTvShowSuccessfulCase(): DetailMovieRepository {
@@ -55,7 +57,7 @@ class DetailMovieRepositoryShould:BaseUnitTest() {
             }
         )
         whenever(detailTvMapper.invoke(detailResponseTvMock)).thenReturn(detailMock)
-        return DetailMovieRepository(detailService,detailMoviesMapper,detailTvMapper)
+        return DetailMovieRepository(detailService,detailMoviesMapper,detailTvMapper,favoriteDao)
     }
 
     private suspend fun repoTvFailureCase(): DetailMovieRepository {
@@ -64,10 +66,19 @@ class DetailMovieRepositoryShould:BaseUnitTest() {
                 emit(Result.failure(resultFailure))
             }
         )
-        return DetailMovieRepository(detailService,detailMoviesMapper,detailTvMapper)
+        return DetailMovieRepository(detailService,detailMoviesMapper,detailTvMapper,favoriteDao)
     }
 
-    @ExperimentalCoroutinesApi
+    private suspend fun daoSuccessfulCase():DetailMovieRepository{
+       whenever(favoriteDao.getDetailById(idMovieTesting)).thenReturn(detailMock)
+        return DetailMovieRepository(detailService,detailMoviesMapper,detailTvMapper,favoriteDao)
+    }
+
+    private suspend fun daoFailureCase():DetailMovieRepository{
+        whenever(favoriteDao.getDetailById(idMovieTesting)).thenThrow(resultFailure)
+        return DetailMovieRepository(detailService,detailMoviesMapper,detailTvMapper,favoriteDao)
+    }
+
     @Test
     fun getDetailMovieSuccessfulCase()= runBlockingTest{
         val repo = repoMoviesSuccessfulCase()
@@ -77,7 +88,6 @@ class DetailMovieRepositoryShould:BaseUnitTest() {
         assertEquals(detailMock,movies.getOrNull())
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getDetailMovieFailure()= runBlockingTest{
         val repo = repoMoviesFailureCase()
@@ -86,7 +96,6 @@ class DetailMovieRepositoryShould:BaseUnitTest() {
         assertEquals(resultFailure,movies.exceptionOrNull())
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun checkingRawDataGetMovieBeforeToMappers()= runBlockingTest{
         val repo = repoMoviesSuccessfulCase()
@@ -94,7 +103,6 @@ class DetailMovieRepositoryShould:BaseUnitTest() {
         verify(detailMoviesMapper, times(1)).invoke(detailResponseMovieMock)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getDetailTvSuccessfulCase()= runBlockingTest{
         val repo = repoTvShowSuccessfulCase()
@@ -104,7 +112,6 @@ class DetailMovieRepositoryShould:BaseUnitTest() {
         assertEquals(detailMock,tv.getOrNull())
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun checkingRawDataGetTvBeforeToMappers()= runBlockingTest{
         val repo = repoTvShowSuccessfulCase()
@@ -112,12 +119,27 @@ class DetailMovieRepositoryShould:BaseUnitTest() {
         verify(detailTvMapper, times(1)).invoke(detailResponseTvMock)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getDetailTvFailure()= runBlockingTest{
         val repo = repoTvFailureCase()
         val tv = repo.getDetailTV(idTvTesting).first()
         verify(detailService, times(1)).fetchDetailTV(idTvTesting)
         assertEquals(resultFailure,tv.exceptionOrNull())
+    }
+
+    @Test
+    fun getDetailFromLocalReturnSuccess() = runBlockingTest {
+        val repo = daoSuccessfulCase()
+        val detail = repo.getDetailFromLocal(idMovieTesting).first()
+        verify(favoriteDao, times(1)).getDetailById(idMovieTesting)
+        assertEquals(detailMock,detail.getOrNull())
+    }
+
+    @Test
+    fun getDetailFromLocalReturnFailure() = runBlockingTest {
+        val repo = daoFailureCase()
+        val detail = repo.getDetailFromLocal(idMovieTesting).first()
+        verify(favoriteDao, times(1)).getDetailById(idMovieTesting)
+        assertEquals(resultFailure.message,detail.exceptionOrNull()?.message)
     }
 }

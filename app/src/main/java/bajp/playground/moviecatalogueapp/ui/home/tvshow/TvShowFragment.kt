@@ -65,6 +65,7 @@ class TvShowFragment : Fragment() {
                     val mIntent = Intent(context, DetailMovieActivity::class.java)
                     mIntent.putExtra(DetailMovieActivity.idMovie,movie.movieId)
                     mIntent.putExtra(DetailMovieActivity.type, ConstanNameHelper.TV_TYPE)
+                    mIntent.putExtra(DetailMovieActivity.local, false)
                     startActivity(mIntent)
                 }
             })

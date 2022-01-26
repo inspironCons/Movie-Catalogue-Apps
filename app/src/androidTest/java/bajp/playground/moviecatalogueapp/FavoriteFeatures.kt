@@ -7,6 +7,8 @@ import bajp.playground.moviecatalogueapp.utils.General
 import bajp.playground.moviecatalogueapp.utils.General.toGetYear
 import bajp.playground.moviecatalogueapp.utils.GeneralTesting
 import com.adevinta.android.barista.assertion.BaristaListAssertions.assertDisplayedAtPosition
+import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions
+import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn
 import com.adevinta.android.barista.interaction.BaristaListInteractions.clickListItem
 import org.junit.Test
@@ -16,14 +18,15 @@ class FavoriteFeatures:BaseUiTest() {
     private val mockTvShows = General.dummyDataTvShowsType()
     private val general = GeneralTesting()
 
-    @Test
-    fun displayFavoriteMovies(){
+    private fun insertData(){
         clickListItem(R.id.rv_movies, 0)
         clickOn(R.id.fab_favorite)
         clickOn(R.id.btn_back)
         clickOn(R.id.btn_favorite)
-
-
+    }
+    @Test
+    fun displayFavoriteMovies(){
+        insertData()
         onView(ViewMatchers.withId(R.id.tl_favorite)).perform(general.selectTabAtPosition(0))
         val years = mockDataMovies.releaseDate?.toGetYear()
         assertDisplayedAtPosition(
@@ -75,5 +78,12 @@ class FavoriteFeatures:BaseUiTest() {
             "${mockTvShows.originLanguage?.uppercase()}"
         )
 
+    }
+
+    @Test
+    fun checkDetailMovieFromIntentFavorite(){
+        insertData()
+        clickListItem(R.id.rv_movies,0)
+        assertDisplayed(R.id.detail_activity)
     }
 }

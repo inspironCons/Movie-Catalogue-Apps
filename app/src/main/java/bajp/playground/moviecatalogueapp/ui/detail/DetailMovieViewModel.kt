@@ -2,6 +2,7 @@ package bajp.playground.moviecatalogueapp.ui.detail
 
 import androidx.lifecycle.*
 import bajp.playground.moviecatalogueapp.common.ConstanNameHelper.MOVIES_TYPE
+import bajp.playground.moviecatalogueapp.common.ConstanNameHelper.TV_TYPE
 import bajp.playground.moviecatalogueapp.data.DetailMovieEntity
 import bajp.playground.moviecatalogueapp.repository.DetailMovieRepository
 import bajp.playground.moviecatalogueapp.repository.FavoriteRepository
@@ -21,11 +22,14 @@ class DetailMovieViewModel(
            movies.type = type
        }
     }
-    fun detailMovie(id:Int,type:String) =  liveData {
-        if(type == MOVIES_TYPE){
-            emitSource(repository.getDetailMovies(id).asLiveData())
+    fun detailMovie(id:Int,type:String,getSourceLocal:Boolean) =  liveData {
+        if(!getSourceLocal){
+            when(type){
+                MOVIES_TYPE-> emitSource(repository.getDetailMovies(id).asLiveData())
+                else->emitSource(repository.getDetailTV(id).asLiveData())
+            }
         }else{
-            emitSource(repository.getDetailTV(id).asLiveData())
+            emitSource(repository.getDetailFromLocal(id).asLiveData())
         }
     }
 

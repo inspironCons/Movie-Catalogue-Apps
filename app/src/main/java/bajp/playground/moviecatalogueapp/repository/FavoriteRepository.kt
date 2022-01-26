@@ -15,33 +15,36 @@ class FavoriteRepository @Inject constructor(
 
     fun getFavoriteMovieByType(type:String):PagingSource<Int,DetailMovieEntity> = favoriteDao.getMovies(type)
 
-
     fun isMoviesInTheFavoriteSegment(id:Int?):Flow<Result<Boolean>>{
         return flow {
-            EspressoIdling.increment()
+//            EspressoIdling.increment()
             val count = favoriteDao.countMoviesById(id) > 0
-            if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
-                EspressoIdling.decrement()
-            }
+//            if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
+//                EspressoIdling.decrement()
+//            }
             emit(Result.success(count))
         }.catch {
+//            if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
+//                EspressoIdling.decrement()
+//            }
             emit(Result.failure(RuntimeException(it.localizedMessage?:"")))
         }
     }
 
     suspend fun insertMoviesFavorite(movie:DetailMovieEntity):Flow<Result<String>>{
         return flow {
-            EspressoIdling.increment()
+//            EspressoIdling.increment()
             emit(Result.success("Loading..."))
             favoriteDao.insert(movie)
+//            if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
+//                EspressoIdling.decrement()
+//            }
             emit(Result.success("Data Berhasil Ditambahkan"))
-            if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
-                EspressoIdling.decrement()
-            }
+
         }.catch {
-            if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
-                EspressoIdling.decrement()
-            }
+//            if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
+//                EspressoIdling.decrement()
+//            }
             emit(Result.failure(RuntimeException("Gagal ditambah")))
 
         }
@@ -49,18 +52,17 @@ class FavoriteRepository @Inject constructor(
 
     suspend fun deleteMovieFavorite(movie:DetailMovieEntity):Flow<Result<String>>{
         return flow {
-            EspressoIdling.increment()
-
+//            EspressoIdling.increment()
             emit(Result.success("Loading..."))
             favoriteDao.delete(movie)
-            if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
-                EspressoIdling.decrement()
-            }
+//            if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
+//                EspressoIdling.decrement()
+//            }
             emit(Result.success("Data Berhasil Dihapus"))
         }.catch {
-            if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
-                EspressoIdling.decrement()
-            }
+//            if(!EspressoIdling.getEspressoIdlingResource.isIdleNow){
+//                EspressoIdling.decrement()
+//            }
             emit(Result.failure(RuntimeException("Gagal DiDihapus")))
 
         }

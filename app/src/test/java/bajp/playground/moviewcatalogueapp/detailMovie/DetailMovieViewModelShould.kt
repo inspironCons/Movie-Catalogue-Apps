@@ -37,7 +37,7 @@ class DetailMovieViewModelShould:BaseUnitTest() {
     @Test
     fun getDetailMovieFromRepositoryThenReturnSuccess() = runBlockingTest {
         val viewModel = detailMoviesSuccessViewModel()
-        val detail = viewModel.detailMovie(idMovieTesting,ConstanNameHelper.MOVIES_TYPE).getValueForTest()
+        val detail = viewModel.detailMovie(idMovieTesting,ConstanNameHelper.MOVIES_TYPE,false).getValueForTest()
         verify(movieRepo, times(1)).getDetailMovies(idMovieTesting)
         assertEquals(entitySuccess,detail)
     }
@@ -45,7 +45,7 @@ class DetailMovieViewModelShould:BaseUnitTest() {
     @Test
     fun getDetailMovieFromRepositoryThenReturnException() = runBlockingTest {
         val viewModel = detailMovieFailureViewModel()
-        val detail = viewModel.detailMovie(idMovieTesting,ConstanNameHelper.MOVIES_TYPE).getValueForTest()
+        val detail = viewModel.detailMovie(idMovieTesting,ConstanNameHelper.MOVIES_TYPE,false).getValueForTest()
         verify(movieRepo, times(1)).getDetailMovies(idMovieTesting)
         assertEquals(expectedException,detail)
     }
@@ -134,8 +134,10 @@ class DetailMovieViewModelShould:BaseUnitTest() {
         val viewModel = detailMoviesSuccessViewModel()
         viewModel.setDetailMovie(mockEntity,ConstanNameHelper.MOVIES_TYPE)
         viewModel.isMovieFavorite.postValue(false)
-        val insert = viewModel.saveToFavorite().getValueForTest()
-        verify(favoriteRepo, times(1)).insertMoviesFavorite(mockEntity)
+        viewModel.saveToFavorite().captureValues {
+            verify(favoriteRepo, times(1)).insertMoviesFavorite(mockEntity)
+            assertEquals(msgInsertfailed,values.first()?.exceptionOrNull())
+        }
     }
 
     @Test
@@ -154,9 +156,31 @@ class DetailMovieViewModelShould:BaseUnitTest() {
 
     }
 
+    @Test
+    fun getDetailMovieFromLocalSuccess() = runBlockingTest {
+        val viewModel = detailMoviesSuccessViewModel()
+        val data = viewModel.detailMovie(idMovieTesting,ConstanNameHelper.MOVIES_TYPE,true).getValueForTest()
+        verify(movieRepo, times(1)).getDetailFromLocal(idMovieTesting)
+        assertEquals(mockEntity,data?.getOrNull())
+    }
+
+    @Test
+    fun getDetailMovieFromLocalThenFailure() = runBlockingTest {
+        val viewModel = detailMovieFailureViewModel()
+        val data = viewModel.detailMovie(idMovieTesting,ConstanNameHelper.MOVIES_TYPE,true).getValueForTest()
+        verify(movieRepo, times(1)).getDetailFromLocal(idMovieTesting)
+        assertEquals(expectedException.exceptionOrNull(),data?.exceptionOrNull())
+    }
+
     private fun detailMoviesSuccessViewModel(): DetailMovieViewModel {
         runBlockingTest {
             whenever(movieRepo.getDetailMovies(idMovieTesting)).thenReturn(
+                flow {
+                    emit(entitySuccess)
+                }
+            )
+
+            whenever(movieRepo.getDetailFromLocal(idMovieTesting)).thenReturn(
                 flow {
                     emit(entitySuccess)
                 }
@@ -173,7 +197,13 @@ class DetailMovieViewModelShould:BaseUnitTest() {
                     emit(expectedException)
                 }
             )
+            whenever(movieRepo.getDetailFromLocal(idMovieTesting)).thenReturn(
+                flow {
+                    emit(expectedException)
+                }
+            )
         }
         return DetailMovieViewModel(movieRepo,favoriteRepo)
     }
+
 }

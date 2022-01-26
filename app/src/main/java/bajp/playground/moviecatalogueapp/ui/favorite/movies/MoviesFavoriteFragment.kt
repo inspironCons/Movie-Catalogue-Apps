@@ -54,6 +54,7 @@ class MoviesFavoriteFragment:Fragment() {
                 val mIntent = Intent(context, DetailMovieActivity::class.java)
                 mIntent.putExtra(DetailMovieActivity.idMovie,movie?.movieId)
                 mIntent.putExtra(DetailMovieActivity.type, ConstanNameHelper.MOVIES_TYPE)
+                mIntent.putExtra(DetailMovieActivity.local, true)
                 startActivity(mIntent)
             }
         })
