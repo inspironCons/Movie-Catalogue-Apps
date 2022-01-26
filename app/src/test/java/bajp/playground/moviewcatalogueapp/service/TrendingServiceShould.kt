@@ -13,7 +13,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.lang.RuntimeException
-
+@ExperimentalCoroutinesApi
 class TrendingServiceShould:BaseUnitTest() {
 
     private val api:TrendingApi = mock()
@@ -61,7 +61,6 @@ class TrendingServiceShould:BaseUnitTest() {
         return TrendingService(api)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getMovieFromApiThenSuccess() = runBlockingTest {
         val service = mockMovieSuccessCase()
@@ -74,7 +73,6 @@ class TrendingServiceShould:BaseUnitTest() {
         assertEquals(movieFromNetworkResult.results,data.getOrNull())
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getMovieFromApiThenNetworkFail() = runBlockingTest {
         val service = mockMovieFailureCase()
@@ -87,7 +85,6 @@ class TrendingServiceShould:BaseUnitTest() {
         assertEquals("Something went wrong",data.exceptionOrNull()?.message)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getTvShowsFromApiThenSuccess() = runBlockingTest {
         val service = mockTvShowsSuccessCase()
@@ -100,7 +97,6 @@ class TrendingServiceShould:BaseUnitTest() {
         assertEquals(movieFromNetworkResult.results,data.getOrNull())
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getTvShowsFromApiThenNetworkFail() = runBlockingTest {
         val service = mockTvShowsFailureCase()

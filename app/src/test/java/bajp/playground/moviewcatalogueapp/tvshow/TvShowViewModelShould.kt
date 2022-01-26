@@ -17,6 +17,7 @@ import org.junit.Assert
 import org.junit.Test
 import java.util.*
 
+@ExperimentalCoroutinesApi
 class TvShowViewModelShould: BaseUnitTest() {
     private val movieRepo: MovieRepository = mock()
     private val mockTvShowList = mock<List<TrendingEntity>>()
@@ -25,7 +26,6 @@ class TvShowViewModelShould: BaseUnitTest() {
     private val expectedException = Result.failure<List<TrendingEntity>>(RuntimeException("Something Went Wrong"))
 
 
-    @ExperimentalCoroutinesApi
     @Test
     fun showLoaderWhenLoadMovieList() = runBlockingTest{
         val vieModel = moviesSuccessViewModel()
@@ -35,7 +35,6 @@ class TvShowViewModelShould: BaseUnitTest() {
         }
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun hideLoaderWhenLoadMovieListIsDone() = runBlockingTest{
         val vieModel = moviesSuccessViewModel()
@@ -45,7 +44,6 @@ class TvShowViewModelShould: BaseUnitTest() {
         }
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getTvShowListFromRepositoryThenSuccess() = runBlockingTest{
         val viewModel = moviesSuccessViewModel()
@@ -54,7 +52,6 @@ class TvShowViewModelShould: BaseUnitTest() {
         Assert.assertEquals(expectedSuccess, data)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getTvShowListFromRepositoryThenEmpty() = runBlockingTest{
         val viewModel = tvShowEmptyViewModel()
@@ -63,7 +60,6 @@ class TvShowViewModelShould: BaseUnitTest() {
         Assert.assertEquals(expectedEmpty, data)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getTvShowListFromRepositoryThenException() = runBlockingTest{
         val viewModel = tvShowFailureViewModel()
@@ -72,7 +68,6 @@ class TvShowViewModelShould: BaseUnitTest() {
         Assert.assertEquals(expectedException, data)
     }
 
-    @ExperimentalCoroutinesApi
     private fun moviesSuccessViewModel(): TvShowViewModel {
         runBlockingTest {
             whenever(movieRepo.getTvList()).thenReturn(
@@ -86,7 +81,6 @@ class TvShowViewModelShould: BaseUnitTest() {
     }
 
 
-    @ExperimentalCoroutinesApi
     private fun tvShowEmptyViewModel(): TvShowViewModel {
         runBlockingTest {
             whenever(movieRepo.getTvList()).thenReturn(
@@ -99,7 +93,6 @@ class TvShowViewModelShould: BaseUnitTest() {
         return TvShowViewModel(movieRepo)
     }
 
-    @ExperimentalCoroutinesApi
     private fun tvShowFailureViewModel(): TvShowViewModel {
         runBlockingTest {
             whenever(movieRepo.getTvList()).thenReturn(

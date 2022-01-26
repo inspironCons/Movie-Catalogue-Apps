@@ -34,7 +34,6 @@ class FavoriteMovieRepositoryShould:BaseUnitTest() {
             whenever(favoriteDao.getMovies(MOVIES_TYPE)).thenReturn(
                 listFavorite
             )
-
         }
         return FavoriteRepository(favoriteDao)
     }

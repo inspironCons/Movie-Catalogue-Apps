@@ -54,7 +54,6 @@ class DetailMovieViewModelShould:BaseUnitTest() {
     fun getDetailMovieAfterSetValue() {
         val viewModel = detailMoviesSuccessViewModel()
         viewModel.setDetailMovie(mockEntity,ConstanNameHelper.MOVIES_TYPE)
-
         assertEquals(mockEntity,viewModel.movies)
     }
 

@@ -18,7 +18,7 @@ import org.junit.Test
 import java.util.*
 
 
-
+@ExperimentalCoroutinesApi
 class MoviesViewModelShould: BaseUnitTest() {
 
     private val movieRepo: MovieRepository = mock()
@@ -28,7 +28,6 @@ class MoviesViewModelShould: BaseUnitTest() {
     private val expectedException = Result.failure<List<TrendingEntity>>(RuntimeException("Something Went Wrong"))
 
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getMoviesListFromRepositoryThenSuccess() = runBlockingTest{
         val viewModel = moviesSuccessViewModel()
@@ -37,7 +36,6 @@ class MoviesViewModelShould: BaseUnitTest() {
         assertEquals(expectedSuccess,data)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getMoviesListFromRepositoryThenEmpty() = runBlockingTest{
         val viewModel = moviesEmptyViewModel()
@@ -46,7 +44,6 @@ class MoviesViewModelShould: BaseUnitTest() {
         assertEquals(expectedEmpty,data)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getMoviesListFromRepositoryThenException() = runBlockingTest{
         val viewModel = moviesFailureViewModel()
@@ -55,7 +52,6 @@ class MoviesViewModelShould: BaseUnitTest() {
         assertEquals(expectedException,data)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun showLoaderWhenLoadMovieList() = runBlockingTest{
         val vieModel = moviesSuccessViewModel()
@@ -65,7 +61,6 @@ class MoviesViewModelShould: BaseUnitTest() {
         }
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun hideLoaderWhenLoadMovieListIsDone() = runBlockingTest{
         val vieModel = moviesSuccessViewModel()
@@ -75,7 +70,6 @@ class MoviesViewModelShould: BaseUnitTest() {
         }
     }
 
-    @ExperimentalCoroutinesApi
     private fun moviesSuccessViewModel():MoviesViewModel{
         runBlockingTest {
             whenever(movieRepo.getMoviesList()).thenReturn(
@@ -89,7 +83,6 @@ class MoviesViewModelShould: BaseUnitTest() {
     }
 
 
-    @ExperimentalCoroutinesApi
     private fun moviesEmptyViewModel():MoviesViewModel{
         runBlockingTest {
             whenever(movieRepo.getMoviesList()).thenReturn(
@@ -102,7 +95,6 @@ class MoviesViewModelShould: BaseUnitTest() {
         return MoviesViewModel(movieRepo)
     }
 
-    @ExperimentalCoroutinesApi
     private fun moviesFailureViewModel():MoviesViewModel{
         runBlockingTest {
             whenever(movieRepo.getMoviesList()).thenReturn(

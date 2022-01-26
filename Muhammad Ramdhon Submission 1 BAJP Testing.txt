@@ -58,6 +58,10 @@ untuk kelancaran testing harap uncomment esprosso idling yang berada di
     1.klik tab pada posisi/ menu tv show
     2. memastikan id load_content_tv_show di menu movie sudah hilang
 
+  8.navigateToFavoriteList
+    deskripsi -> memastikan layout benar ketika klik tombol favorit di kanan getDetailTvShowsFromApiServiceThenNetworkFails
+    1. klik di tombol dengan id btn_favorite
+    2. memastikan layout benar dengan id favorite_list_layout 
 
 2)DetailsFeatures
    1.loadDetailsMovies
@@ -96,6 +100,45 @@ untuk kelancaran testing harap uncomment esprosso idling yang berada di
         4.klik tab dengan judul tv shows
         5.klik item pertama pada kategori tv shows
         6. mengecek apakah label dengan id tv_lable_companies sama dengan string resource id network yakni "Network"
+    
+    5.testInsertDataToFavoriteDb
+      deskripsi -> memastikan data movie telah berhasil dimasukan ke database local
+        1.click item yang ada di recycleview posisi pertama
+        2.insert data ke tabel favorite
+        3.ambil semua data dari table favorit
+        4.memastikan data yang di ambil dari table favorit mempunyai row data sama dengan data dummy
+
+    6.testInsertDataToFavoriteDb
+      deskripsi -> memastikan data movie telah berhasil dihapus dari database local
+        1.click item yang ada di recycleview posisi pertama
+        2.insert data ke tabel favorite
+        3.delete data dari tabel favorite
+        4.ambil semua data dari table favorit
+        5.memastikan data yang di ambil dari table favorit tidak mempunyai row data sama dengan data dummy
+    
+    7.changeColorWhenClickBtnFavorite
+      deskripsi -> memastikan warna berubah ketika tombol fab favorite di navigateToIntentWhileClickButtonWatch
+        1.click item yang ada di recycleview posisi pertama
+        2.check warna icon favorite berwarna putih
+        3.click tombol fab favorite
+        4.check warna icon favorite berwarna pink
+3)FavoriteFeatures
+    1.displayFavoriteMovies
+      deskripsi->memastikan recycleview favorite menampilkan list item dengan type movie
+      1.click list item di recycleview dengan id rv_movies di posisi pertama lalu click tombol favorite,kembali ke halaman utama dan klik tombol menu favorite(step ini untuk menambahkan data ke source local)
+      2.klik tab layout dengan text Movies
+      3. memastikan nama film dan tahun benar
+      4. memastikan movie score film benar
+      5. memastikan movie original language film benar
+    
+    2.displayFavoriteMovies
+    deskripsi->memastikan recycleview favorite menampilkan list item dengan type tv shows
+    1.click tab layout dengan text TV SHOWS lalu click list item di recycleview di posisi pertama lalu click tombol favorite,kembali ke halaman utama dan click tombol menu favorite(step ini untuk menambahkan data ke source local)
+    2. click tab layout dengan text TV SHOW
+    3. memastikan nama tv show dan tahun rilis perdana benar
+    4. memastikan score tv show benar
+    5. memastikan original language tv show benar
+
 ########################################### Instrument Testing ###########################################
 
 ########################################### Unit Testing ###########################################
@@ -171,6 +214,70 @@ untuk kelancaran testing harap uncomment esprosso idling yang berada di
     - memastikan fungsi getDetailPlaylist() terpanggil hanya satu kali oleh variable fungsi detailMovie() di DetailMovieViewModel
     - memastikan hasil balikan dari getDetailPlaylist() adalah error yakni RuntimeException dengan kata "Something Went Wrong on detail activity"
 
+  c.getDetailMovieAfterSetValue (check data detail setelah set detail)
+    - panggil fungsi setDetailMovie dengan parameter isian data detail dari mock dan type movie
+    - memastikan variable movies di viewModel sama dengan yang kita buat dengan mock
+
+  d.checkMovieWasInsertOnFavoriteTable (memastikan data detail movie telah di tambah di table favorite dengan balikan boolean)
+    - membuat simulasi ketika fungsi isMoviesInTheFavoriteSegment di class FavoriteRepository dipanggil maka akan mendapatkan value flow bernilai true
+    - mengisi nilai movieId di variabel movies dengan value id 634649
+    - memanggil fungsi checkFavorite di class viewModel
+    - memastikan fungsi isMoviesInTheFavoriteSegment di class FavoriteRepository terpanggil satu kali
+    - memastikan nilai dari isMovieFavorite di viewmodel sesuai simulasi di step pertama yaitu true *(data movie ada di tabel favorite)
+    
+  e. checkMovieWasNotInsertOnFavoriteTable(memastikan data detail movie tidak ada di table favorite dengan balikan boolean)
+    - membuat simulasi ketika fungsi isMoviesInTheFavoriteSegment di class FavoriteRepository dipanggil maka akan mendapatkan value flow bernilai false
+    - mengisi nilai movieId di variabel movies dengan value id 634649
+    - memanggil fungsi checkFavorite di class viewModel
+    - memastikan fungsi isMoviesInTheFavoriteSegment di class FavoriteRepository terpanggil satu kali
+    - memastikan nilai dari isMovieFavorite di viewmodel sesuai simulasi di step pertama yaitu false *(data movie tidak ada di tabel favorite)
+
+  f. insertDetailMovieOnTableFavoriteWhenClickFabFavorite(memastikan data masuk di tabel favorite setelah click tombol favorite)
+    - membuat simulasi ketika fungsi insertMoviesFavorite di class  FavoriteRepository dipanggil makan akan mendapatkan balikan dua String secara bertahap
+    - memanggil setDetailMovie dengan isi param data detail yang di mock dan type movie
+    - mengubah nilai variable isMovieFavorite di viewmodel dengan false
+    - ambil nilai dari livedata saveFavorite hasil balikan insertMoviesFavorite di class FavoriteRepository
+    - memastikan insertMoviesFavorite di class FavoriteRepository terpanggil sekali
+    - memastikan balikan pertama yang diambil di fungsi saveFavorite sama dengan string ekspetasi yakni "loading"
+    - memastikan balikan kedua yang diambil di fungsi saveFavorite sama dengan string ekspetasi yakni "Data Berhasil Ditambahkan"
+
+  g. removeDetailMovieOnTableFavoriteWhenClickFabFavorite(memastikan data terhapus dari tabel favorite setelah click tombol favorite)
+    - membuat simulasi ketika fungsi insertMoviesFavorite di class  FavoriteRepository dipanggil makan akan mendapatkan balikan dua String secara bertahap
+    - memanggil setDetailMovie dengan isi param data detail yang di mock dan type movie
+    - mengubah nilai variable isMovieFavorite di viewmodel dengan true
+    - ambil nilai dari livedata saveFavorite hasil balikan deleteMovieFavorite di class FavoriteRepository
+    - memastikan deleteMovieFavorite di class FavoriteRepository terpanggil sekali
+    - memastikan balikan pertama yang diambil di fungsi saveFavorite sama dengan string ekspetasi yakni "loading"
+    - memastikan balikan kedua yang diambil di fungsi saveFavorite sama dengan string ekspetasi yakni "Data Berhasil Dihapus"
+
+  h. insertDetailMovieOnTableFavoriteWhenClickFabFavoriteThenReturnFailure(memastikan data gagal ditambah di tabel favorite setelah click tombol favorite)
+    - membuat simulasi ketika fungsi insertMoviesFavorite di class  FavoriteRepository dipanggil makan akan mendapatkan balikan RuntimeException("Gagal ditambah")
+    - memanggil setDetailMovie dengan isi param data detail yang di mock dan type movie
+    - mengubah nilai variable isMovieFavorite di viewmodel dengan false
+    - ambil nilai dari livedata saveFavorite hasil balikan insertMoviesFavorite di class FavoriteRepository
+    - memastikan insertMoviesFavorite di class FavoriteRepository terpanggil sekali
+    - memastikan balikan yang diambil di fungsi saveFavorite sama dengan ekspetasi error yakni RuntimeException("Gagal ditambah")
+
+    g. removeDetailMovieOnTableFavoriteWhenClickFabFavoriteThenReturnFailure(memastikan data gagal terhapus dari tabel favorite setelah click tombol favorite)
+    - membuat simulasi ketika fungsi insertMoviesFavorite di class  FavoriteRepository dipanggil makan akan mendapatkan balikan RuntimeException("Gagal DiDihapus")
+    - memanggil setDetailMovie dengan isi param data detail yang di mock dan type movie
+    - mengubah nilai variable isMovieFavorite di viewmodel dengan true
+    - ambil nilai dari livedata saveFavorite hasil balikan deleteMovieFavorite di class FavoriteRepository
+    - memastikan deleteMovieFavorite di class FavoriteRepository terpanggil sekali
+    - memastikan balikan yang diambil di fungsi saveFavorite sama dengan ekspetasi error yakni RuntimeException("Gagal DiDihapus")
+  
+  i. getDetailMovieFromLocalSuccess (memastikan data balikan sesuai dengan data di db local)
+    - membuat simulasi ketika fungsi getDetailFromLocal di class  MovieRepository dipanggil makan akan mendapatkan balikan flow data DetailMovieEntity yang di mock
+    - memanggil detailMovie dengan params id, movie type, dan source local false
+    - memastikan getDetailFromLocal dari class MovieRepository terpanggil satu kali
+    - memastikan data balikan dari fungsi detailMovie sama dengan yang di buat dengan mock
+  
+  j. getDetailMovieFromLocalThenFailure (memastikan data balikan error/exception setelah mengambil dari tabel)
+    - membuat simulasi ketika fungsi getDetailFromLocal di class  MovieRepository dipanggil makan akan mendapatkan balikan RuntimeException("Something Went Wrong on detail activity")
+    - memanggil detailMovie dengan params id, movie type, dan source local false
+    - memastikan getDetailFromLocal dari class MovieRepository terpanggil satu kali
+    - memastikan data balikan dari fungsi detailMovie sama dengan balikan error RuntimeException("Something Went Wrong on detail activity")
+
 4.MovieRepositoryShould
   a.getMoviesListFromApiService
     - membuat simulasi jika fungsi fetchApiMovieList di class TrendingService dipanggil mendapatkan response list sesuai data class ResultsMovieResponse
@@ -212,34 +319,46 @@ untuk kelancaran testing harap uncomment esprosso idling yang berada di
 
 5.DetailMovieRepositoryShould
   a.getDetailMovieSuccessfulCase
-   - membuat simulasi jika fungsi fetchDetailMovies pada class DetailService di panggil makan mendapatkan balikan  DetailMoviesResponse
-   - memanggil fungsi getDetailMovies pada class DetailMovieRepository
-   - memastikan fungsi fetchDetailMovies pada class DetailService terpanggil hanya satu kali
-   - memastikan hasil balikan sama dengan objeck mock yakni object DetailMovieEntity
-  b.getDetailMovieFailure
-   - membuat simulasi jika fungsi fetchDetailMovies pada class DetailService di panggil makan mendapatkan balikan error exception dengan pesan "Something Wrong"
-   - memanggil fungsi getDetailMovies pada class DetailMovieRepository
-   - memastikan fungsi fetchDetailMovies pada class DetailService terpanggil hanya satu kali
-   - memastikan hasil balikan sama dengan pesan error yakni "Something Wrong"
-  c.checkingRawDataGetMovieBeforeToMappers
     - membuat simulasi jika fungsi fetchDetailMovies pada class DetailService di panggil makan mendapatkan balikan  DetailMoviesResponse
-   - memanggil fungsi getDetailMovies pada class DetailMovieRepository
-   - memastikan fungsi invoke dari class DetailMoviesMapper terpanggil hanya satu kali
+    - memanggil fungsi getDetailMovies pada class DetailMovieRepository
+    - memastikan fungsi fetchDetailMovies pada class DetailService terpanggil hanya satu kali
+    - memastikan hasil balikan sama dengan objeck mock yakni object DetailMovieEntity
+  b.getDetailMovieFailure
+    - membuat simulasi jika fungsi fetchDetailMovies pada class DetailService di panggil makan mendapatkan balikan error exception dengan pesan "Something Wrong"
+    - memanggil fungsi getDetailMovies pada class DetailMovieRepository
+    - memastikan fungsi fetchDetailMovies pada class DetailService terpanggil hanya satu kali
+    - memastikan hasil balikan sama dengan pesan error yakni "Something Wrong"
+    c.checkingRawDataGetMovieBeforeToMappers
+    - membuat simulasi jika fungsi fetchDetailMovies pada class DetailService di panggil makan mendapatkan balikan  DetailMoviesResponse
+    - memanggil fungsi getDetailMovies pada class DetailMovieRepository
+    - memastikan fungsi invoke dari class DetailMoviesMapper terpanggil hanya satu kali
 
   d.getDetailTvSuccessfulCase
     - membuat simulasi jika fungsi fetchDetailTV pada class DetailService di panggil makan mendapatkan balikan  DetailTvShowsResponse
-   - memanggil fungsi getDetailTV pada class DetailMovieRepository
-   - memastikan fungsi fetchDetailTV pada class DetailService terpanggil hanya satu kali
-   - memastikan hasil balikan sama dengan objeck mock yakni object DetailMovieEntity
+    - memanggil fungsi getDetailTV pada class DetailMovieRepository
+    - memastikan fungsi fetchDetailTV pada class DetailService terpanggil hanya satu kali
+    - memastikan hasil balikan sama dengan objeck mock yakni object DetailMovieEntity
   e.checkingRawDataGetTvBeforeToMappers
-     - membuat simulasi jika fungsi fetchDetailTV pada class DetailService di panggil makan mendapatkan balikan  DetailTvShowsResponse
-   - memanggil fungsi getDetailTV pada class DetailMovieRepository
-   - memastikan fungsi invoke dari class DetailMoviesMapper terpanggil hanya satu kali
+    - membuat simulasi jika fungsi fetchDetailTV pada class DetailService di panggil makan mendapatkan balikan  DetailTvShowsResponse
+    - memanggil fungsi getDetailTV pada class DetailMovieRepository
+    - memastikan fungsi invoke dari class DetailMoviesMapper terpanggil hanya satu kali
   f.getDetailTvFailure
     - membuat simulasi jika fungsi fetchDetailTV pada class DetailService di panggil makan mendapatkan balikan error exception dengan pesan "Something Wrong"
    - memanggil fungsi getDetailTV pada class DetailMovieRepository
    - memastikan fungsi fetchDetailTV pada class DetailService terpanggil hanya satu kali
    - memastikan hasil balikan sama dengan pesan error yakni "Something Wrong"
+
+  g.getDetailFromLocalReturnSuccess (mengambil data detail movie dari data local db dengan case normal)
+   - membuat simulasi ketika fungsi getDetailById di interface class FavoriteDao dengan balikan DetailMovieEntity
+   - memanggil fungsi getDetailFromLocal dari class DetailMovieRepository
+   - memastikan fungsi getDetailById di interface class FavoriteDao terpanggil sekali
+   - memastikan hasil balikan dari getDetailFromLocal sama dengan data DetailMovieEntity
+
+  h.getDetailFromLocalReturnFailure (mengambil data detail movie dari data local db dengan case normal)
+   - membuat simulasi ketika fungsi getDetailById di interface class FavoriteDao dengan balikan RuntimeException("Something Wrong")
+   - memanggil fungsi getDetailFromLocal dari class DetailMovieRepository
+   - memastikan fungsi getDetailById di interface class FavoriteDao terpanggil sekali
+   - memastikan hasil balikan error dari getDetailFromLocal sama dengan data RuntimeException("Something Wrong")
 
 6.TrendingServiceShould
   a.getMovieFromApiThenSuccess 
@@ -284,4 +403,42 @@ untuk kelancaran testing harap uncomment esprosso idling yang berada di
     - memanggil fungsi fetchDetailTV pada class DetailService
     - memastikan fungsi getDetailTv pada interface DetailMoviesApi terpanggil hanya satu kali
     - memastikan balikan nilai dari fungsi fetchDetailTV adalah sama yakni pesan error "Something went wrong"
+
+8.FavoriteViewModelsShould
+  a.getListMovie (memastikan data balikan PagingSource yang di masukan ke dalam adapter sama dengan ada di mock)
+    - membuat simulasi fungsi getFavoriteMovieByType di class FavoriteRepository mendapatkan balikan PagingSource<Int,DetailMovieEntity>
+    - membuat object variable yang memuat helper class untuk mapping PagingData ke adapter recycleview
+    - mengambil data dari variable getListMovie di class viewmodel lalu di submit ke object helper yang telah dibuat
+    - memastikan fungsi getFavoriteMovieByType dari class FavoriteRepository telah di panggil satu kali
+    - memastikan data snapshot dari object helper yang telah dibuat dengan List<DetailMovieEntity>
+
+9.FavoriteMovieRepositoryShould
+  a.getFavoriteMovieByType (mengambil list movie dari db local)
+    - membuat simulai ketika fungsi getMovies dari class Interface FavoriteDao mendapatkan balikan PagingSource<Int,DetailMovieEntity>
+    - memanggil fungsi getFavoriteMovieByType dengan params Movie Types
+    - memastikan fungsi getMovies di class interface FavoriteDao terpanggil satu kali
+    - memastikan hasil dari getFavoriteMovieByType sama dengan ekspetasi yakni PagingSource<Int,DetailMovieEntity>
+
+  b.checkingMoviesNotAvailableInLocal (mengecek apakah data detail movie belum ada di local)
+    - membuat simulasi fungsi countMoviesById di class interface FavoriteDao dengan balikan 0
+    - memanggil fungsi isMoviesInTheFavoriteSegment dengan params idMovie di class FavoriteMovieRepository
+    - memastikan countMoviesById di class interface FavoriteDao terpanggil sekali
+    - memastikan hasil dari fungsi countMoviesById adalah false
+
+  c.checkingMoviesAvailableInLocal (mengecek apakah data detail movie sudah ada di local)
+    - membuat simulasi fungsi countMoviesById di class interface FavoriteDao dengan balikan 1
+    - memanggil fungsi isMoviesInTheFavoriteSegment dengan params idMovie di class FavoriteMovieRepository
+    - memastikan countMoviesById di class interface FavoriteDao terpanggil sekali
+    - memastikan hasil dari fungsi countMoviesById adalah true
+
+   d.checkingMoviesAreAvailableInLocalButErrorRuntime (mengecek apakah data detail movie sudah ada di local tapi balikan error)
+    - membuat simulasi fungsi countMoviesById di class interface FavoriteDao dengan balikan RuntimeException("Something Wrong")
+    - memanggil fungsi isMoviesInTheFavoriteSegment dengan params idMovie di class FavoriteMovieRepository
+    - memastikan countMoviesById di class interface FavoriteDao terpanggil sekali
+    - memastikan hasil dari fungsi countMoviesById error dengan exception RuntimeException("Something Wrong") 
+
+  e.checkingInsertMovie (mengecek apakah insert data detail ke local db berhasil)
+    - memanggil fungsi insertMoviesFavorite di class FavoriteMovieRepository
+    - memastikan fungsi insert di class interface FavoriteDao terpanggil satu kali
+    
 ########################################### Unit Testing ###########################################

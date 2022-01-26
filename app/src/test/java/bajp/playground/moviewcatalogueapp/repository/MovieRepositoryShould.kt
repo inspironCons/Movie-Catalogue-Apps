@@ -15,6 +15,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 class MovieRepositoryShould:BaseUnitTest() {
 
     private val service:TrendingService = mock()
@@ -63,7 +64,6 @@ class MovieRepositoryShould:BaseUnitTest() {
         return MovieRepository(service,mapperMovie,mapperTv)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getMoviesListFromApiService() = runBlockingTest{
         val repo = mockMovieSuccessCase()
@@ -72,7 +72,6 @@ class MovieRepositoryShould:BaseUnitTest() {
         assertEquals(movieList  ,data.first().getOrNull())
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getMoviesListFromApiServiceThenFailure() = runBlockingTest{
         val repo = mockMovieFailureCase()
@@ -81,7 +80,6 @@ class MovieRepositoryShould:BaseUnitTest() {
         assertEquals(exception  ,data.first().exceptionOrNull())
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun checkingRawDataGetMovieListFromApiBeforeToMapperMovie() = runBlockingTest {
         val repo = mockMovieSuccessCase()
@@ -89,7 +87,6 @@ class MovieRepositoryShould:BaseUnitTest() {
         verify(mapperMovie, times(1)).invoke(movieListFromNetwork)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getTvShowsListFromApiService() = runBlockingTest{
         val repo = mockTvSuccessCase()
@@ -98,7 +95,6 @@ class MovieRepositoryShould:BaseUnitTest() {
         assertEquals(movieList  ,data.first().getOrNull())
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getTvShowsListFromApiServiceThenFailure() = runBlockingTest{
         val repo = mockTvFailureCase()
@@ -107,7 +103,6 @@ class MovieRepositoryShould:BaseUnitTest() {
         assertEquals(exception  ,data.first().exceptionOrNull())
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun checkingRawDataGetTvListFromApiBeforeToMapperMovie() = runBlockingTest {
         val repo = mockTvSuccessCase()

@@ -16,6 +16,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 class DetailServiceShould:BaseUnitTest() {
     private val api:DetailMoviesApi = mock()
     private val detailResponseMovieMock = mock<DetailMoviesResponse>()
@@ -63,7 +64,6 @@ class DetailServiceShould:BaseUnitTest() {
         return DetailService(api)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getDetailMoviesFromApiService() = runBlockingTest {
         val service = mockRequestApiGetDetailMovieSuccessfulCase()
@@ -77,7 +77,6 @@ class DetailServiceShould:BaseUnitTest() {
         assertEquals(detailResponseMovieMock,request.getOrNull())
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getDetailMoviesFromApiServiceThenNetworkFails() = runBlockingTest {
         val service = mockRequestApiGetDetailMovieFailureCase()
@@ -92,7 +91,6 @@ class DetailServiceShould:BaseUnitTest() {
     }
 
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getDetailTvShowsFromApiService() = runBlockingTest {
         val service = mockRequestApiGetDetailTvSuccessfulCase()
@@ -106,7 +104,6 @@ class DetailServiceShould:BaseUnitTest() {
         assertEquals(detailResponseTvMock,request.getOrNull())
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun getDetailTvShowsFromApiServiceThenNetworkFails() = runBlockingTest {
         val service = mockRequestApiGetDetailTvFailureCase()
